@@ -1,0 +1,2 @@
+# samples
+MapTiler samples
