@@ -2,8 +2,14 @@
 <html>
 <head>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="author" content="MapTiler AG">
+  <meta name="keywords" content="map, choropleth, maptiler">
+  <meta name="description" content="Sample choropleth map with MapTiler Countries.">
+  <title>Sample choropleth map with MapTiler Countries</title>
+
   <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
   <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
+
   <style>
     #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
   </style>
@@ -60,7 +66,6 @@
 
     map.on('mousemove', 'states', function(e) {
       if (e.features.length > 0) {
-        console.log(e.features[0]);
         map.setFeatureState({
           source: 'statesData',
           sourceLayer: 'administrative',
