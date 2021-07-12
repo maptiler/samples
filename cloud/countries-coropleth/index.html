@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
+  <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
+  <script>
+    const key = 'ikPbJwwEEbaMHCvgAxpQ';
+
+    var map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://api.maptiler.com/maps/basic/style.json?key=' + key,
+      center: [0, 0],
+      zoom: 1
+    });
+
+    map.on('load', function () {
+      map.addSource('statesData', {
+          type: 'vector',
+          url: 'https://api.maptiler.com/tiles/3604e77c-6780-4593-b4e5-90c1f0a7c509/tiles.json?key=' + key
+      });
+
+      const lenColor = {
+        'fill-outline-color': '#333',
+        'fill-color':  [
+            'match',
+            ['concat', 'i', ['length', ['get', 'name']]],
+            ['i4'],
+            '#e94f53',
+            ['i5'],
+            '#f28f2f',
+            ['i6'],
+            '#f9d422',
+            ['i7'],
+            '#ece473',
+            ['i8'],
+            '#6fa84b',
+            ['i9'],
+            '#6fa84b',
+            /* other */ '#e0ebc2'
+            ]
+      };
+
+      map.addLayer({
+          id: 'states',
+          type: 'fill',
+          source: 'statesData',
+          'source-layer': 'administrative',
+          filter: ['all', ['in', 'level', 0]],
+          paint: lenColor,
+      }, 'label_road');
+    });
+
+    map.on('mousemove', 'states', function(e) {
+      if (e.features.length > 0) {
+        console.log(e.features[0]);
+        map.setFeatureState({
+          source: 'statesData',
+          sourceLayer: 'administrative',
+          id: e.features[0].id,
+          }, {
+          hover: true
+        });
+      }
+    });
+
+  </script>
+</body>
+</html>
