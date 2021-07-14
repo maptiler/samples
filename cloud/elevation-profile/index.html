@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Elevation profile</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.js"></script>
+    <link href="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.3.0/mapbox-gl-draw.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.3.0/mapbox-gl-draw.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <style>
+        html { height: 100%; }
+        body { height: 100%; margin: 0; padding: 0;}
+        #container {display: flex; flex-flow: column; height: 100%;}
+        #map { flex: 1 1 65%;}
+        #chart { flex: 1 1 35%; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
+        #chart p { text-align: center; vertical-align: center; }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div id="map"></div>
+    <div id="chart">
+        <p>Please draw a line on the map to get the elevation profile.</p>
+    </div>
+</div>
+
+<script src="globalMapTiles.js"></script>
+<script src="elevationProvider.js"></script>
+<script src="elevationProfile.js"></script>
+
+</body>
+</html>
