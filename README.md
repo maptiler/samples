@@ -1,6 +1,8 @@
 # MapTiler samples
 Please create a folder per article or usecase in the product's folder. The website has an autobuild to https://www.maptiler.com/samples/
 
+> When autobuild finished, samples can be found on `https://labs.maptiler.com/samples/[sample path]/`, for example the sample in the `cloud/choropleth-map-basic` folder will end up in [`https://labs.maptiler.com/samples/cloud/choropleth-map-basic/`](https://labs.maptiler.com/samples/cloud/choropleth-map-basic/)
+
 # Public code
 
 This repository is now _private_, but it will be **PUBLIC** at the end of the sprint, when all codes are finished. Do not hesitate to use the link to your folder in the final article as it is.
