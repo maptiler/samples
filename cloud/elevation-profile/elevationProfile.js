@@ -49,11 +49,9 @@ class ElevationProfile {
         const line = turf.lineString(coordinates);
         const lineLength = turf.length(line, options);
         let numSamples = 200;
-        let stepSize = lineLength / numSamples;
+        const metersPerPx = this.getZoomLevelResolution(coordinates[0][1], 12);
 
-        const first = coordinates[0];
-        const metersPerPx = 156543.03392 * Math.cos(first[1] * Math.PI / 180) / Math.pow(2, 12);
-        stepSize = Math.max(metersPerPx, stepSize);
+        const stepSize = Math.max(metersPerPx, lineLength / numSamples);
         numSamples = lineLength / stepSize;
 
         const samples = [];
@@ -64,6 +62,11 @@ class ElevationProfile {
         }
 
         return samples;
+    }
+
+    getZoomLevelResolution(latitude, zoom) {
+        const metersPerPx = (Math.cos(latitude * Math.PI/180.0) * 2 * Math.PI * 6378137) / (512 * 2**zoom);
+        return metersPerPx;
     }
 
     clearChart() {
