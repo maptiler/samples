@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Choropleth map</title>
+  <title>Choropleth map with legend</title>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
   <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
   <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
@@ -38,7 +38,7 @@
 <div id="map"></div>
 
 <div id="state-legend" class="legend"> 
-  <h4>Average age of </br> women at first marriage </h4>
+  <h4>Mean age of </br> women at first marriage </h4>
     <div><span style="background-color: #fff5eb"></span>23</div>
     <div><span style="background-color: #fee6ce"></span>24</div>
     <div><span style="background-color: #fdd0a2"></span>25</div>
@@ -62,7 +62,7 @@
   map.on('load', function () {
       map.addSource('age', {
           'type': 'geojson',
-          'data': 'https://api.maptiler.com/data/42ea42e6-6cf3-42a4-91c1-00dad9fb008d/features.json?key=ikPbJwwEEbaMHCvgAxpQ'
+          'data': 'https://api.maptiler.com/data/04a17914-bfe9-4d61-8e23-1f8bdfebb11a/features.json?key=EZxE84baCWXsC6SuSFKc'
       });
 
     // Find the index of the first symbol layer in the map style
@@ -75,7 +75,7 @@
       }
     }
 
-    //add layer with GeoJSON and style it baset on age
+    //add layer with GeoJSON and style it based on age
     map.addLayer(
         {
             'id': 'IDage',
