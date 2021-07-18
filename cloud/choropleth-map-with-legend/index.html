@@ -7,7 +7,7 @@
     <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
     <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
     <!-- map and legend styling -->
-    <style> 
+    <style>
       #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
       .legend {
         background-color: #000;
@@ -33,12 +33,12 @@
         margin-right: 5px;
         width: 10px;
     }
-    </style> 
+    </style>
   </head>
   <body>
     <div id="map"></div> <!-- map holder -->
     <!-- legend -->
-    <div id="state-legend" class="legend"> 
+    <div id="state-legend" class="legend">
       <h4>Mean age of </br> women at first marriage </h4>
         <div><span style="background-color: #fff5eb"></span>23</div>
         <div><span style="background-color: #fee6ce"></span>24</div>
@@ -50,19 +50,21 @@
         <div><span style="background-color: #8c2d04"></span>30</div>
     </div>
     <script>
+      const apikey = 'ikPbJwwEEbaMHCvgAxpQ';
+
       // basemap
        var map = new maplibregl.Map({
           container: 'map',
-          style: 'https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=slEr7lXnTotdWgNA0oLf',
+          style: 'https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=' + apikey,
           center: [13.39, 52.51],
           zoom: 3
         });
-      
+
       //GeoJSON source
         map.on('load', function () {
             map.addSource('age', {
                 'type': 'geojson',
-                'data': 'https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=slEr7lXnTotdWgNA0oLf'
+                'data': 'https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=' + apikey
             });
 
           // Find the index of the first symbol layer in the map style
@@ -74,7 +76,7 @@
               break;
               }
             }
-          
+
           // add GeoJSON layer with fill based on age atributte
           map.addLayer(
               {
@@ -109,7 +111,7 @@
            firstSymbolId
 
             );
-          
+
           // add outline to GeoJSON layer
            map.addLayer({
             'id': 'outline',
@@ -122,7 +124,7 @@
               }
             }, firstSymbolId
            );
-          
+
          //Popup
          map.on('click', 'IDage', function (e) {
                 new maplibregl.Popup()
