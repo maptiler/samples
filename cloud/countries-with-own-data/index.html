@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="author" content="MapTiler AG">
+  <meta name="keywords" content="map, choropleth, maptiler">
+  <meta name="description" content="Sample choropleth map with MapTiler Countries.">
+  <title>MapTiler Countries with own data</title>
+  <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
+  <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
+  <script>
+    var key = 'ikPbJwwEEbaMHCvgAxpQ';
+
+    var map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://api.maptiler.com/maps/hybrid/style.json?key=' + key,
+      center: [15.34, 49.77],
+      zoom: 3
+    });
+
+    // Data for visualization
+    var vizData = {
+      "8":{"name":"Albania","population":2829741},
+      "40":{"name":"Austria","population":8932664},
+      "56":{"name":"Belgium","population":11566041},
+      "100":{"name":"Bulgaria","population":6916548},
+      "191":{"name":"Croatia","population":4036355},
+      "196":{"name":"Cyprus","population":896005},
+      "203":{"name":"Czechia","population":10701777},
+      "208":{"name":"Denmark","population":5840045},
+      "233":{"name":"Estonia","population":1330068},
+      "246":{"name":"Finland","population":5533793},
+      "250":{"name":"France","population":67439599},
+      "276":{"name":"Germany","population":83155031},
+      "300":{"name":"Greece","population":10682547},
+      "348":{"name":"Hungary","population":9730772},
+      "352":{"name":"Iceland","population":368792},
+      "372":{"name":"Ireland","population":5006907},
+      "380":{"name":"Italy","population":59257566},
+      "428":{"name":"Latvia","population":1893223},
+      "438":{"name":"Liechtenstein","population":39055},
+      "440":{"name":"Lithuania","population":2795680},
+      "442":{"name":"Luxembourg","population":634730},
+      "470":{"name":"Malta","population":516100},
+      "499":{"name":"Montenegro","population":620739},
+      "528":{"name":"Netherlands","population":17475415},
+      "578":{"name":"Norway","population":5391369},
+      "616":{"name":"Poland","population":37840001},
+      "620":{"name":"Portugal","population":10298252},
+      "642":{"name":"Romania","population":19186201},
+      "688":{"name":"Serbia","population":6871547},
+      "703":{"name":"Slovakia","population":5459781},
+      "705":{"name":"Slovenia","population":2108977},
+      "724":{"name":"Spain","population":47394223},
+      "752":{"name":"Sweden","population":10379295},
+      "756":{"name":"Switzerland","population":8667088},
+      "792":{"name":"Turkey","population":83614362},
+      "807":{"name":"North Macedonia","population":2068808}
+    };
+
+    map.on('load', function () {
+      // Add MapTiler Countries dataset
+      map.addSource('statesData', {
+        type: 'vector',
+        url: 'https://api.maptiler.com/tiles/countries/tiles.json?key=' + key
+      });
+
+      // Styling for countries layer with linear interpolation of data
+      map.addLayer({
+        id: 'countries',
+        type: 'fill',
+        source: 'statesData',
+        'source-layer': 'administrative',
+        filter: ['==', 'level', 0],
+        paint: {
+          'fill-color':
+          ['case',
+            ['!=', ['to-number', ['feature-state', 'population']], 0],
+            ['interpolate', ['linear'], ['feature-state', 'population'], 5000000, 'rgba(222,235,247,1)', 90000000, 'rgba(49,130,189,1)'],
+            'rgba(0, 0, 0, 0)'
+          ]
+        }
+      }, 'state_label');
+
+      // Join the data to coresponding features
+      function setStates(e) {
+        var countries = map.querySourceFeatures('statesData', {
+          sourceLayer: 'administrative',
+          filter: ['all', ['==', 'level', 0]],
+        });
+
+        countries.forEach(function(row) {
+          if(row.id && vizData[row.id]) {
+            map.setFeatureState({
+              source: 'statesData',
+              sourceLayer: 'administrative',
+              id: row.id
+            }, {
+              population: vizData[row.id].population
+            });
+          }
+        });
+      }
+
+      function afterLoad(e) {
+        if (e.sourceId === 'statesData' && e.isSourceLoaded) {
+          setTimeout(setStates, 1000);
+          map.off('sourcedata', afterLoad);
+        }
+      }
+
+      if (map.isSourceLoaded('statesData')) {
+        setStates();
+      } else {
+        map.on('sourcedata', afterLoad);
+      }
+    });
+
+  </script>
+</body>
+</html>
