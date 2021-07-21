@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script src="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.js"></script>
+    <script src="https://cdn.maptiler.com/mapbox-gl-leaflet/latest/leaflet-mapbox-gl.js"></script>
+
+  	<!-- ajax plugin for leaflet -->
+  	<script type="text/javascript" src="https://calvinmetcalf.github.io/leaflet-ajax/dist/leaflet.ajax.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.css" />
+    <style>
+      #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+    	.legend {
+	      background-color: #000;
+	      border-radius: 3px;
+	      bottom: 30px;
+	      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	      color: #fff ;
+	      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	      padding: 10px;
+	      position: absolute;
+	      right: 10px;
+	      z-index: 1;
+		  }
+		 	.legend i {
+			  width: 18px; 
+				height: 18px; 
+				float: left; 
+				margin-right: 8px; 
+				opacity: 1; 
+			}
+    </style>
+  </head>
+  <body>
+    <div id="map">
+      <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+    </div>
+    <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
+    
+    <script>
+
+
+    	//load the basemap
+      var map = L.map('map').setView([55.99870, 15.27683], 4);
+      //create a pan
+      map.createPane('labels');
+			// This pane is above markers but below popups
+			map.getPane('labels').style.zIndex = 550;
+			// Layers in this pane are non-interactive and do not obscure mouse/touch events
+			map.getPane('labels').style.pointerEvents = 'none';
+			//label tileset
+      var darkStreetsLabels = L.tileLayer('https://api.maptiler.com/maps/83856491-519a-4fe4-bb9e-93b2d980f1ba/{z}/{x}/{y}.png?key=slEr7lXnTotdWgNA0oLf',{
+        tileSize: 512,
+        zoomOffset: -1,
+        minZoom: 1,
+        attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+        crossOrigin: true,
+        pane: 'labels'
+      }).addTo(map);
+      //vector basemap
+      var basemap = L.mapboxGL({
+        attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+        style: 'https://api.maptiler.com/maps/ea885020-68b3-4cd3-b585-e810b2e49fea/style.json?key=slEr7lXnTotdWgNA0oLf'
+      }).addTo(map);
+
+		// get color depending on age value
+			function getColor(age) {
+				return age > 30 ? '#8c2d04' :
+						age > 29  ? '#d94801' :
+						age > 28  ? '#f16913' :
+						age > 27  ? '#fd8d3c' :
+						age > 26  ? '#fdae6b' :
+						age > 25  ? '#fdd0a2' :
+						age > 24  ? '#fee6ce' :
+									'#fff5eb';
+			}
+
+			//style of GeoJSON layer
+		  function getStyle(geojson) {
+				return {
+					weight: 1, //size of outline
+					opacity: 1, //outline opacity
+					color: 'black', //colour of outline
+					fillOpacity: 1,
+					fillColor: getColor(geojson.properties.age),
+				};
+			}
+
+			//load GeoJSON throught AJAX plugin
+			var geojson = new L.GeoJSON.AJAX("https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=slEr7lXnTotdWgNA0oLf",{
+				onEachFeature:popup,
+				style: getStyle,
+		});
+
+		geojson.addTo(map);
+
+		//popup
+			function popup(geojson, layer){
+				onEachFeature: {var out = [];
+		    layer.bindPopup('<h3>'+geojson.properties.NAME_ENGL+'</h3><p>age: '+geojson.properties.age+'</p>')
+      	}
+      }
+
+			//add atribution
+			map.attributionControl.addAttribution('mean age of women at first marriage in 2019 &copy; <a href="https://ec.europa.eu/eurostat/">EUROSTAT</a>');
+
+			//legend definition
+			var legend = L.control({position: 'bottomright'});
+
+			legend.onAdd = function (map) {
+				var div = L.DomUtil.create('div', 'info legend'),
+					grades = [23, 24, 25, 26, 27, 28, 29, 30],
+					labels = [],
+					from, to;
+
+				for (var i = 0; i < grades.length; i++) {
+					from = grades[i];
+					to = grades[i + 0.9];
+					labels.push(
+						'<i style="background:' + getColor(from + 1) + '"></i> ' +
+						from 
+					);
+				}
+				div.innerHTML ='<h3>Mean age of </br> women at first marriage </br> in 2019</h3>' + labels.join('<br>');
+				return div;
+			};
+
+			legend.addTo(map);
+    </script>
+  </body>
+</html>
