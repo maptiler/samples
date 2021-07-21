@@ -5,7 +5,7 @@
   <meta name="author" content="MapTiler AG">
   <meta name="keywords" content="map, choropleth, maptiler">
   <meta name="description" content="Sample choropleth map with MapTiler Countries.">
-  <title>Sample choropleth map with MapTiler Countries</title>
+  <title>US states choropleth map with MapTiler Countries</title>
 
   <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
   <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
@@ -19,63 +19,12 @@
   <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
   <script>
     const key = 'ikPbJwwEEbaMHCvgAxpQ';
-
     var map = new maplibregl.Map({
       container: 'map',
-      style: 'https://api.maptiler.com/maps/basic/style.json?key=' + key,
-      center: [0, 0],
-      zoom: 1
+      style: 'https://api.maptiler.com/maps/3de136a0-b7ed-498c-8b03-b916f98df218/style.json?key=' + key,
+      center: [-98.05748, 38.74745],
+      zoom: 3.40
     });
-
-    map.on('load', function () {
-      map.addSource('statesData', {
-          type: 'vector',
-          url: 'https://api.maptiler.com/tiles/countries/tiles.json?key=' + key
-      });
-
-      const lenColor = {
-        'fill-outline-color': '#333',
-        'fill-color':  [
-            'match',
-            ['concat', 'i', ['length', ['get', 'name']]],
-            ['i4'],
-            '#e94f53',
-            ['i5'],
-            '#f28f2f',
-            ['i6'],
-            '#f9d422',
-            ['i7'],
-            '#ece473',
-            ['i8'],
-            '#6fa84b',
-            ['i9'],
-            '#6fa84b',
-            /* other */ '#e0ebc2'
-            ]
-      };
-
-      map.addLayer({
-          id: 'states',
-          type: 'fill',
-          source: 'statesData',
-          'source-layer': 'administrative',
-          filter: ['all', ['in', 'level', 0]],
-          paint: lenColor,
-      }, 'label_road');
-    });
-
-    map.on('mousemove', 'states', function(e) {
-      if (e.features.length > 0) {
-        map.setFeatureState({
-          source: 'statesData',
-          sourceLayer: 'administrative',
-          id: e.features[0].id,
-          }, {
-          hover: true
-        });
-      }
-    });
-
   </script>
 </body>
 </html>
