@@ -9,6 +9,8 @@ This repository is now _private_, but it will be **PUBLIC** at the end of the sp
 
 # Links
 
+ - [Cloud - Countries with own data](https://labs.maptiler.com/samples/cloud/countries-with-own-data/)
+ - [Cloud - Choropleth geojson maplibre](https://labs.maptiler.com/samples/cloud/choropleth-geojson-maplibre/)
  - [Cloud - Choropleth map basic](https://labs.maptiler.com/samples/cloud/choropleth-map-basic/)
  - [Cloud - Elevation profile](https://labs.maptiler.com/samples/cloud/elevation-profile/)
 
