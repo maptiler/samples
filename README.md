@@ -1,5 +1,5 @@
 # MapTiler samples
-Please create a folder per article or usecase in the product's folder. The website has an autobuild to https://www.maptiler.com/samples/
+Please create a folder per article or usecase in the product's folder. The website has an autobuild to https://labs.maptiler.com/samples/
 
 > When autobuild finished, samples can be found on `https://labs.maptiler.com/samples/[sample path]/`, for example the sample in the `cloud/choropleth-map-basic` folder will end up in [`https://labs.maptiler.com/samples/cloud/choropleth-map-basic/`](https://labs.maptiler.com/samples/cloud/choropleth-map-basic/)
 
