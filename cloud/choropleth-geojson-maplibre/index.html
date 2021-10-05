@@ -129,7 +129,7 @@
          map.on('click', 'IDage', function (e) {
                 new maplibregl.Popup()
                     .setLngLat(e.lngLat)
-                    .setHTML('<h3>' + "Average age of </br> women at first marriage" + '</h3><p>' + e.features[0].properties.age+ '</p><h3>' + "Average age of </br> women at first marriage" + '</h3><p>' + e.features[0].properties.age+ '</p>')
+                    .setHTML('<h3>' + "Average age of </br> women at first marriage" + '</h3><p>' + e.features[0].properties.age + '</p>')
                     .addTo(map);
             });
 
