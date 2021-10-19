@@ -1,0 +1,119 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <script src="https://cdn.maptiler.com/ol/v6.0.0/ol.js"></script>
+      <script src="https://cdn.maptiler.com/ol-mapbox-style/v5.0.2/olms.js"></script>
+      <link rel="stylesheet" href="https://cdn.maptiler.com/ol/v6.0.0/ol.css">
+       <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->
+    <script src="https://unpkg.com/elm-pep"></script>
+
+      <style>
+        #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+
+        .legend {
+            background-color: #000;
+            border-radius: 3px;
+            bottom: 30px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            color: #fff ;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            padding: 10px;
+            position: absolute;
+            right: 10px;
+            z-index: 1;
+        }
+
+        .legend h4 {
+            margin: 0 0 10px;
+        }
+
+        .legend div span {
+            border-radius: 50%;
+            display: inline-block;
+            height: 10px;
+            margin-right: 5px;
+            width: 10px;
+        }
+
+      </style>
+    </head>
+    <body>
+      <div id="map">
+        <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+      </div>
+      <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
+
+
+      <!--legend-->
+      <div id="state-legend" class="legend"> 
+        <h4>Mean age of </br> women at first marriage </h4>
+          <div><span style="background-color: #fff5eb"></span>23</div>
+          <div><span style="background-color: #fee6ce"></span>24</div>
+          <div><span style="background-color: #fdd0a2"></span>25</div>
+          <div><span style="background-color: #fdae6b"></span>26</div>
+          <div><span style="background-color: #fd8d3c"></span>27</div>
+          <div><span style="background-color: #f16913"></span>28</div>
+          <div><span style="background-color: #d94801"></span>29</div>
+          <div><span style="background-color: #8c2d04"></span>30</div>
+      </div>
+    <script>
+
+      //define JSON style of a map
+      var styleJson = 'https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=slEr7lXnTotdWgNA0oLf';
+
+      //create a map
+      var map = new ol.Map({
+        target: 'map',
+        view: new ol.View({
+          constrainResolution: true,
+          center: ol.proj.fromLonLat([15.27683,55.99870]),
+          zoom: 4
+        })
+      });
+
+      //aply JSON style to a map
+      olms.apply(map, styleJson);
+
+      //define style for GeoJSON based on age values
+     var styles = function(geojson,resolution) {
+       if (geojson.get('age') >= 30) {color = '#8c2d04' ;}
+       else if (geojson.get('age') >= 29 ){color ='#d94801';}
+       else if (geojson.get('age') >= 28 ){color ='#f16913';}
+       else if (geojson.get('age') >= 27 ){color ='#fd8d3c';}
+       else if (geojson.get('age') >= 26 ){color ='#fdae6b';}
+       else if (geojson.get('age') >= 25 ){color ='#fdd0a2';}
+       else if (geojson.get('age') >= 24 ){color ='#fee6ce';}
+       else {color = '#fff5eb';}
+
+          return  [
+          new ol.style.Style({
+            stroke: new ol.style.Stroke({
+              color: 'black',
+              width: 0.7,
+            }),
+            fill: new ol.style.Fill({
+              color: color,
+            }),
+          }),
+        ]
+      };
+
+     //add GeoJSON source as layer
+      const geojson = new ol.layer.Vector({
+        source: new ol.source.Vector({
+          format: new ol.format.GeoJSON(),
+          url: `https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=slEr7lXnTotdWgNA0oLf`,
+        }),
+        zIndex: 1,
+        style: styles, //refere to previously defined style
+      });
+
+      //add GeoJSON to the map
+      map.addLayer(geojson)
+
+
+</script>
+</body>
+</html>
+    
