@@ -2,7 +2,8 @@
 <html lang="en" >
   <head>
     <meta charset="UTF-8">
-    <title>Choropleth map with legend</title>
+    <title>MapTiler Cloud API GeoJSON choropleth map with legend - MapLibre</title>
+    <link rel="icon" href="../../assets/favicon.ico">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
     <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
@@ -55,7 +56,7 @@
       // basemap
        var map = new maplibregl.Map({
           container: 'map',
-          style: 'https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=' + apikey,
+          style: `https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=${apikey}`,
           center: [13.39, 52.51],
           zoom: 3
         });
@@ -64,7 +65,7 @@
         map.on('load', function () {
             map.addSource('age', {
                 'type': 'geojson',
-                'data': 'https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=' + apikey
+                'data': `https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=${apikey}`
             });
 
           // Find the index of the first symbol layer in the map style

@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+		<title>MapTiler Cloud API GeoJSON choropleth map with legend - Leaflet</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="icon" href="../../assets/favicon.ico">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
     <script src="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.js"></script>
     <script src="https://cdn.maptiler.com/mapbox-gl-leaflet/latest/leaflet-mapbox-gl.js"></script>
@@ -42,8 +44,8 @@
     <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
     
     <script>
-
-
+			const apikey = 'ikPbJwwEEbaMHCvgAxpQ';
+    
     	//load the basemap
       var map = L.map('map').setView([55.99870, 15.27683], 4);
       //create a pan
@@ -53,7 +55,7 @@
 			// Layers in this pane are non-interactive and do not obscure mouse/touch events
 			map.getPane('labels').style.pointerEvents = 'none';
 			//label tileset
-      var darkStreetsLabels = L.tileLayer('https://api.maptiler.com/maps/83856491-519a-4fe4-bb9e-93b2d980f1ba/{z}/{x}/{y}.png?key=slEr7lXnTotdWgNA0oLf',{
+      var darkStreetsLabels = L.tileLayer(`https://api.maptiler.com/maps/83856491-519a-4fe4-bb9e-93b2d980f1ba/{z}/{x}/{y}.png?key=${apikey}`,{
         tileSize: 512,
         zoomOffset: -1,
         minZoom: 1,
@@ -64,7 +66,7 @@
       //vector basemap
       var basemap = L.mapboxGL({
         attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-        style: 'https://api.maptiler.com/maps/ea885020-68b3-4cd3-b585-e810b2e49fea/style.json?key=slEr7lXnTotdWgNA0oLf'
+        style: `https://api.maptiler.com/maps/ea885020-68b3-4cd3-b585-e810b2e49fea/style.json?key=${apikey}`
       }).addTo(map);
 
 		// get color depending on age value
@@ -91,7 +93,7 @@
 			}
 
 			//load GeoJSON throught AJAX plugin
-			var geojson = new L.GeoJSON.AJAX("https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=slEr7lXnTotdWgNA0oLf",{
+			var geojson = new L.GeoJSON.AJAX(`https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=${apikey}`,{
 				onEachFeature:popup,
 				style: getStyle,
 		});

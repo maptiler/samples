@@ -2,11 +2,14 @@
     <!DOCTYPE html>
     <html>
     <head>
+      <title>MapTiler Cloud API GeoJSON choropleth map with legend - OpenLayers</title>
+      <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+      <link rel="icon" href="../../assets/favicon.ico">
       <script src="https://cdn.maptiler.com/ol/v6.0.0/ol.js"></script>
       <script src="https://cdn.maptiler.com/ol-mapbox-style/v5.0.2/olms.js"></script>
       <link rel="stylesheet" href="https://cdn.maptiler.com/ol/v6.0.0/ol.css">
        <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->
-    <script src="https://unpkg.com/elm-pep"></script>
+      <script src="https://unpkg.com/elm-pep"></script>
 
       <style>
         #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
@@ -36,11 +39,57 @@
             width: 10px;
         }
 
+        .ol-popup {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+      }
+      .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+      .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+      }
+      .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+      }
+      .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+      }
+      .ol-popup-closer:after {
+        content: "✖";
+      }
+
       </style>
     </head>
     <body>
       <div id="map">
         <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+        <div id="popup" class="ol-popup">
+          <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+          <div id="popup-content"></div>
+        </div>
       </div>
       <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
 
@@ -58,13 +107,44 @@
           <div><span style="background-color: #8c2d04"></span>30</div>
       </div>
     <script>
-
+      const apikey = 'ikPbJwwEEbaMHCvgAxpQ';
+      
       //define JSON style of a map
-      var styleJson = 'https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=slEr7lXnTotdWgNA0oLf';
+      const styleJson = `https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=${apikey}`;
+
+      /**
+      * Elements that make up the popup.
+      */
+      const container = document.getElementById('popup');
+      const content = document.getElementById('popup-content');
+      const closer = document.getElementById('popup-closer');
+
+      /**
+      * Create an overlay to anchor the popup to the map.
+      */
+      const overlay = new ol.Overlay({
+        element: container,
+        autoPan: {
+          animation: {
+            duration: 250,
+          },
+        },
+      });
+
+      /**
+      * Add a click handler to hide the popup.
+      * @return {boolean} Don't follow the href.
+      */
+      closer.onclick = function () {
+        overlay.setPosition(undefined);
+        closer.blur();
+        return false;
+      };
 
       //create a map
-      var map = new ol.Map({
+      const map = new ol.Map({
         target: 'map',
+        overlays: [overlay],
         view: new ol.View({
           constrainResolution: true,
           center: ol.proj.fromLonLat([15.27683,55.99870]),
@@ -76,7 +156,7 @@
       olms.apply(map, styleJson);
 
       //define style for GeoJSON based on age values
-     var styles = function(geojson,resolution) {
+     const styles = function(geojson,resolution) {
        if (geojson.get('age') >= 30) {color = '#8c2d04' ;}
        else if (geojson.get('age') >= 29 ){color ='#d94801';}
        else if (geojson.get('age') >= 28 ){color ='#f16913';}
@@ -103,14 +183,26 @@
       const geojson = new ol.layer.Vector({
         source: new ol.source.Vector({
           format: new ol.format.GeoJSON(),
-          url: `https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=slEr7lXnTotdWgNA0oLf`,
+          url: `https://api.maptiler.com/data/55336072-ef0f-4cb5-8671-b8d6ebbb0a05/features.json?key=${apikey}`,
         }),
         zIndex: 1,
         style: styles, //refere to previously defined style
       });
 
       //add GeoJSON to the map
-      map.addLayer(geojson)
+      map.addLayer(geojson);
+
+      map.on('click', function (evt) {
+        const features = map.getFeaturesAtPixel(evt.pixel);
+        const feature = features.length ? features[0] : undefined;
+        if (feature.get('NAME_ENGL')) {
+          const coordinate = evt.coordinate;
+          content.innerHTML = `<h3>${feature.get('NAME_ENGL')}</h3><p>age: ${feature.get('age')}</p>`;
+          overlay.setPosition(coordinate);
+        } else {
+          overlay.setPosition(undefined);
+        }
+      });
 
 
 </script>
