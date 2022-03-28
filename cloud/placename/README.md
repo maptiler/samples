@@ -18,7 +18,7 @@ The parameters supported by the viewer are:
 ### Tileset UK Great Britain, Ordnance Survey one-inch to the mile (1:63.360), "Hills" edition, 1885-1903. centered on London.
 
 ```html
-<iframe src="https://labs.maptiler.com/cloud/placename/index.html?q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
+<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
 ```
 In the example above:
 
@@ -26,13 +26,13 @@ In the example above:
 * type = tiles
 * id = uk-osgb63k1885
 
-#### [Demo](https://labs.maptiler.com/cloud/placename/index.html?q=london&type=tiles&id=uk-osgb63k1885&key=0FwjVpfoctS74Le98wMD)
+#### [Demo](https://labs.maptiler.com/samples/cloud/placename/index.html?q=london&type=tiles&id=uk-osgb63k1885&key=0FwjVpfoctS74Le98wMD)
 
 
 ### Winter map with ski slopes centered on Val Thorens
 
 ```html
-<iframe src="https://labs.maptiler.com/cloud/placename/index.html?q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
+<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
 ```
 In the example above:
 
@@ -40,12 +40,12 @@ In the example above:
 * type = maps
 * id = winter
 
-#### [Demo](https://labs.maptiler.com/cloud/placename/index.html?q=val%20thorens&type=maps&id=winter&key=0FwjVpfoctS74Le98wMD)
+#### [Demo](https://labs.maptiler.com/samples/cloud/placename/index.html?q=val%20thorens&type=maps&id=winter&key=0FwjVpfoctS74Le98wMD)
 
 ### Streets map centered on the geolocation provided by browsers.
 
 ```html
-<iframe src="https://labs.maptiler.com/cloud/placename/index.html?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
+<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0" allow="geolocation"></iframe>
 ```
 In the example above:
 
@@ -53,4 +53,6 @@ In the example above:
 * type = maps
 * id = streets
 
-#### [Demo](https://labs.maptiler.com/cloud/placename/index.html?q=auto&type=maps&id=streets&key=0FwjVpfoctS74Le98wMD)
+#### [Demo](https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=0FwjVpfoctS74Le98wMD)
+
+<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0" allow="geolocation"></iframe>
