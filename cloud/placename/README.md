@@ -44,6 +44,8 @@ In the example above:
 
 ### Streets map centered on the geolocation provided by browsers.
 
+> :warning: Please read carefully [Feature-Policy: geolocation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/geolocation) to use the **auto** option in an iframe as it is an **experimental technology**.
+
 ```html
 <iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0" allow="geolocation"></iframe>
 ```
@@ -54,5 +56,3 @@ In the example above:
 * id = streets
 
 #### [Demo](https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=0FwjVpfoctS74Le98wMD)
-
-<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0" allow="geolocation"></iframe>
