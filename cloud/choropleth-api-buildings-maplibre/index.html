@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.js"></script>
+<link href="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.css" rel="stylesheet" />
+<script src="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.js"></script>
+<link href="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.css" rel="stylesheet" />
+<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+<title>MapTiler Cloud API - example</title>
+<style>
+  #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+
+  .filter-group {
+    font: 12px/20px 'Ubuntu', sans-serif;
+    font-weight: 400;
+    position: absolute;
+    bottom: 25px;
+    z-index: 1;
+    border-radius: 4px;
+    width: 150px;
+    color: rgba(51, 51, 89, 1);
+    box-shadow: 0px 15px 68px rgba(51, 51, 89, 0.15);
+    background: rgba(255, 255, 255, 0.9);
+  }
+  .filter-group input[type='checkbox']:first-child + label {
+    border-radius: 6px 6px 0 0;
+  }
+  .filter-group label:last-child {
+    border-radius: 0 0 6px 6px;
+    border: none;
+  }
+  .filter-group input[type='checkbox'] {
+    display: none;
+  }
+  .filter-group input[type='checkbox'] + label {
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    text-transform: capitalize;
+  }
+  .filter-group input[type='checkbox'] + label i {
+    width: 18px;
+    height: 18px;
+    float: right;
+    margin-right: 0 8px;
+    opacity: 0.7;
+  }
+  .filter-group input[type='checkbox'] + label:hover {
+    background-color: rgba(49, 112, 254, 0.05);
+  }
+  .filter-group input[type='checkbox'] + label:before {
+    content: '';
+    margin-right: 15px;
+  }
+  .filter-group input[type='checkbox']:checked + label:before {
+    content: '✔';
+    margin-right: 5px;
+  }
+</style>
+</head>
+<body>
+<div id="map">
+<a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+</div>
+<p><a href="https://www.maptiler.com/copyright/" target="_blank">(c) MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">(c) OpenStreetMap contributors</a></p>
+<script>
+// You can remove the following line if you don't need support for RTL (right-to-left) labels:
+maplibregl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
+
+const apiKey = '0FwjVpfoctS74Le98wMD';
+
+const categories_field = "currentUse";
+const categories = [
+  {id: "1_residential", text: "Residential", color: "#FFD65F"},
+  {id: "2_agriculture", text: "Agriculture", color: "#35C186"},
+  {id: "3_industrial", text: "Industrial", color: "#805CC2"},
+  {id: "4_1_office", text: "Office", color: "#FF8F65"},
+  {id: "4_2_retail", text: "Retail", color: "#3388F1"},
+  {id: "4_3_publicServices", text: "Public Services", color: "#E25041"},
+];
+
+const createFillColor = (categories, categories_field) => {
+  const colors = categories.reduce((agg, item) => {
+    agg.push(item.id);
+    agg.push(item.color);
+    return agg;
+  }, []);
+  return [
+    "match",
+    [
+      "get",
+      categories_field
+    ],
+    ...colors,
+    "#ccc"
+  ]
+}
+
+const createFilter = (categories, categories_field) => {
+  const filters = categories.reduce((agg, item) => {
+    agg.push(["in", categories_field, item.id]);
+    return agg;
+  }, []);
+  return [
+    "all",
+    ["==", "$type", "Polygon"],
+    ["any",
+      ...filters
+    ]
+  ]
+}
+
+const removeAtIndex = (arr, index) => {
+  const copy = [...arr];
+  copy.splice(index, 1);
+  return copy;
+};
+
+const toggle = (arr, item, getValue = item => item) => {
+  const index = arr.findIndex(i => getValue(i) === getValue(item));
+  if (index === -1) return [...arr, item];
+  return removeAtIndex(arr, index);
+}
+
+const getUse = (use, categories) => {
+  return categories.reduce((agg, item) => {
+  return item.id === use ? item.text : agg;
+  }, "Unknown");
+}
+
+const map = new maplibregl.Map({
+  container: 'map',
+  style: `https://api.maptiler.com/maps/basic/style.json?key=${apiKey}`,
+  center: [-3.15, 40.33],
+  zoom: 5,
+  hash: true
+});
+//add navigation control
+map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+class searchControl {
+  onAdd(map) {
+    this._map = map;
+    this._container = document.createElement('div');
+    this._container.className = 'maplibregl-ctrl';
+    const _input = document.createElement('input');
+    this._container.appendChild(_input);
+    const geocoder = new maptiler.Geocoder({
+      input: _input,
+      key: apiKey
+    });
+    geocoder.on('select', function(item) {
+      map.fitBounds(item.bbox);
+    });
+    return this._container;
+  }
+
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
+  }
+}
+map.addControl(new searchControl(), 'top-left');
+
+class legendControl {
+  constructor (categories, field) {
+    this.categories = categories;
+    this.field = field;
+  }
+
+  onAdd(map) {
+    this._map = map;
+    this._container = document.createElement('div');
+    this._container.className = 'maplibregl-ctrl';
+    const _fragment = document.createDocumentFragment();
+    const _nav = document.createElement('nav');
+    _nav.className = 'maplibregl-ctrl filter-group';
+    _nav.id = 'filter-group';
+    _fragment.appendChild(_nav);
+    this.categories.forEach(element => {
+      const _input = document.createElement('input');
+      _input.type = "checkbox";
+      _input.id = element.id;
+      _input.className = "input-layers";
+      _input.checked = true;
+      const this_ = this;
+      _input.addEventListener('change', function (e) {
+        this_.updateLegend(e.target.id);
+      });
+      const _label = document.createElement('label');
+      _label.htmlFor = element.id;
+      const _text = document.createTextNode(element.text);
+      const _legend = document.createElement('i');
+      _legend.style.backgroundColor = element.color;
+      _label.appendChild(_text);
+      _label.appendChild(_legend);
+      _nav.appendChild(_input);
+      _nav.appendChild(_label);
+    });
+    this._container.appendChild(_fragment);
+    return this._container;
+  }
+
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
+  }
+
+  updateLegend(id) {
+    let filter = this._map.getFilter('building_pol');
+    if (filter){
+      const [any, ...filters] = filter[2];
+      filter[2] = [any, ...toggle(filters, ["in", this.field, id], (item) => item[2])];
+      this._map.setFilter('building_pol', filter);
+    }
+  }
+}
+map.addControl(new legendControl(categories, categories_field), 'bottom-left');
+
+map.on('load', () => {
+  // the rest of the code will go in here
+  map.addSource("building_source", {
+  "type": "vector",
+  "url": `https://api.maptiler.com/tiles/6cb8d85c-e841-434f-b1c7-d42ee6428859/tiles.json?key=${apiKey}`
+  });
+
+  map.addLayer({
+    "id": "building_pol",
+    "type": "fill",
+    "source": "building_source",
+    "source-layer": "Building",
+    "layout": {
+    "visibility": "visible"
+    },
+    "paint": {
+      "fill-color": createFillColor(categories, categories_field),
+      "fill-opacity": [
+        "literal",
+        0.6
+      ]
+    },
+    "filter": createFilter(categories, categories_field),
+  }, "label_airport");
+});
+
+const createPopupContent = (feature) => {
+  const bounds = turf.bbox(feature);
+  return `<div><strong>Reference: <a href="${feature.properties.informationSystem}" target="_blank" rel="noopener noreferrer">${feature.properties.reference}</a></strong></div>
+  <div>${feature.properties.value}${feature.properties.value_uom}</div>
+  <div><strong>Use</strong>:${getUse(feature.properties[categories_field], categories)}</div>
+  <div><strong>Date</strong>:${new Date(feature.properties.end).getFullYear()}</div>
+  <div><img src="${feature.properties.documentLink}" style="width:220px;height:165px"></div>
+  <div><img src="https://api.maptiler.com/maps/hybrid/static/${bounds.join()}/220x165.png?key=${apiKey}" style="width: 100%"></div>
+  `;
+}
+
+map.on('click', 'building_pol', function (e) {
+  const content = createPopupContent(e.features[0]);
+  new maplibregl.Popup()
+  .setLngLat(e.lngLat)
+  .setHTML(content)
+  .addTo(map);
+});
+
+map.on('mouseenter', 'building_pol', () => {
+  map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'building_pol', () => {
+  map.getCanvas().style.cursor = '';
+});
+</script>
+</body>
+</html>
