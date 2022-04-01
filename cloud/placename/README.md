@@ -56,3 +56,6 @@ In the example above:
 * id = streets
 
 #### [Demo](https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=0FwjVpfoctS74Le98wMD)
+
+
+Check out the article [How to center iframe map on a placename](https://documentation.maptiler.com/hc/en-us/articles/4978914787601) for more information.
