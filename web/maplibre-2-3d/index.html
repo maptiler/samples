@@ -7,8 +7,6 @@
   <title>3D Map</title>
   <script type="module" src='./lib/maplibre-gl.js'></script>
   <link rel='stylesheet' href='./lib/maplibre-gl.css' />
-  <!-- <script src='https://unpkg.com/maplibre-gl@2.0.0-pre.6/dist/maplibre-gl.js'></script>
-  <link href='https://unpkg.com/maplibre-gl@2.0.0-pre.6/dist/maplibre-gl.css' rel='stylesheet' /> -->
   <style>
     body { margin: 0; padding: 0; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -17,27 +15,30 @@
 <body>
   <div id="map"></div>
   <script type="module">
-    const API_KEY='ikPbJwwEEbaMHCvgAxpQ';
-    // Initialize the map
-    const map = new maplibregl.Map({
-      container: 'map', // container id
-      style: `https://api.maptiler.com/maps/winter/style.json?key=${API_KEY}`, // style URL
-      center: [11.40416, 47.26475], // starting position [lng, lat]
-      zoom: 12, // starting zoom
-      pitch: 70,
-      hash: true
-    });
-
-    map.on('load', () => {
-      // Add sources and layers
-      map.addSource("terrain", {
-        "type": "raster-dem",
-        "tiles": [`https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key=${API_KEY}`],
-        "encoding": "mapbox",
-        "maxzoom": 14
+      const API_KEY='ikPbJwwEEbaMHCvgAxpQ';
+      // Initialize the map
+      const map = new maplibregl.Map({
+        container: 'map', // container id
+        style: `https://api.maptiler.com/maps/winter/style.json?key=${API_KEY}`, // style URL
+        center: [11.40416, 47.26475], // starting position [lng, lat]
+        zoom: 12, // starting zoom
+        hash: true,
+        pitch: 70,
+        maxPitch: 85
       });
-      map.addTerrain("terrain");
-    });
+
+      map.on('load', () => {
+        // Add new sources and layers
+        map.addSource("terrain", {
+          "type": "raster-dem",
+          "tiles": [`https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key=${API_KEY}`],
+          "encoding": "mapbox",
+          "maxzoom": 14
+        });
+        map.setTerrain({
+          source: "terrain"
+        });
+      });
   </script>
 </body>
 </html>
