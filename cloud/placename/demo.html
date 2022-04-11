@@ -150,7 +150,9 @@
 <body>
   <div id="map" ></div>
 
-  <script>
+  <script type="module">
+    import MapTilerApiKeyMessage from '../../assets/maptiler-apikey-message.js';
+
     const params = getURLParams();
     const mapId = params.get("id") || 'basic';
     const mapType = params.get("type") || 'maps';
@@ -224,6 +226,14 @@
           });
         }
       }
+    }).catch((err) => {
+      console.log("ERROR");
+      if (!params.has('key')) {
+        params.append('key', 'YOUR_API_KEY');
+        document.location.search = params;
+      }
+      const apiMessage = document.createElement('maptiler-apikey-message');
+      document.body.appendChild(apiMessage);
     });
   </script>
 
