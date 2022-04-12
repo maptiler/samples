@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Map</title>
+  <link rel="icon" href="../../assets/favicon.ico">
   <script type="module" src='./lib/maplibre-gl.js'></script>
   <link rel='stylesheet' href='./lib/maplibre-gl.css' />
   <style>
@@ -14,8 +15,10 @@
 </head>
 <body>
   <div id="map"></div>
+  <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
   <script type="module">
-      const API_KEY='ikPbJwwEEbaMHCvgAxpQ';
+      const urlParams = new URLSearchParams(window.location.search);
+      const API_KEY = 'ikPbJwwEEbaMHCvgAxpQ';
       // Initialize the map
       const map = new maplibregl.Map({
         container: 'map', // container id
@@ -23,7 +26,8 @@
         center: [11.40416, 47.26475], // starting position [lng, lat]
         zoom: 12, // starting zoom
         hash: true,
-        pitch: 70,
+        pitch: 67,
+        bearing: 11.2,
         maxPitch: 85
       });
 
@@ -38,6 +42,10 @@
         map.setTerrain({
           source: "terrain"
         });
+      });
+
+      map.on('error', function(err) {
+        throw new Error("To load the map, you must replace YOUR_API_KEY first, see README");
       });
   </script>
 </body>
