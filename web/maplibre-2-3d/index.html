@@ -18,11 +18,15 @@
   <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
   <script type="module">
       const urlParams = new URLSearchParams(window.location.search);
-      const API_KEY = 'ikPbJwwEEbaMHCvgAxpQ';
-      // Initialize the map
+      const API_KEY = urlParams.get('key');
+     const STYLE = 'https://api.maptiler.com/maps/winter';  
+      //const TERRAIN = 'https://api.maptiler.com/tiles/terrain-rgb';
+     // Initialize the map
+      //const TERRAIN_TILES = `${TERRAIN}/{z}/{x}/{y}.png?key=${API_KEY}`;
+      const TERRAIN_TILES = `https://api.maptiler.com/tiles/15868a0c-081e-47fb-bc37-caf2c434813b/{z}/{x}/{y}.webp?key=${API_KEY}`;
       const map = new maplibregl.Map({
         container: 'map', // container id
-        style: `https://api.maptiler.com/maps/winter/style.json?key=${API_KEY}`, // style URL
+        style: `${STYLE}/style.json?key=${API_KEY}`, // style URL
         center: [11.40416, 47.26475], // starting position [lng, lat]
         zoom: 12, // starting zoom
         hash: true,
@@ -35,18 +39,21 @@
         // Add new sources and layers
         map.addSource("terrain", {
           "type": "raster-dem",
-          "tiles": [`https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key=${API_KEY}`],
+          "tiles": [`${TERRAIN_TILES}`],
           "encoding": "mapbox",
           "maxzoom": 14
         });
         map.setTerrain({
           source: "terrain"
         });
+
+        //map.setLayoutProperty('water', 'visibility', 'none');
       });
 
       map.on('error', function(err) {
         throw new Error("To load the map, you must replace YOUR_API_KEY first, see README");
       });
+
   </script>
 </body>
 </html>
