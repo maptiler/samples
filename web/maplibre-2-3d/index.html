@@ -19,34 +19,183 @@
   <script type="module">
       const urlParams = new URLSearchParams(window.location.search);
       const API_KEY = urlParams.get('key');
-     const STYLE = 'https://api.maptiler.com/maps/winter';  
-      //const TERRAIN = 'https://api.maptiler.com/tiles/terrain-rgb';
+     //const STYLE = 'https://api.maptiler.com/maps/winter';
+     //const STYLE = 'https://labs.maptiler.com/terrain-demos/hillshading/simple.json';  
+     ///style.json?key=${API_KEY} 
+     //const TERRAIN = 'https://api.maptiler.com/tiles/terrain-rgb';
      // Initialize the map
       //const TERRAIN_TILES = `${TERRAIN}/{z}/{x}/{y}.png?key=${API_KEY}`;
+      
+      const STYLE = {
+  "layers":[
+    {
+      "id":"background",
+      "layout":{
+        "visibility":"visible"
+      },
+      "paint":{
+        "background-color": "rgba(252, 247, 229, 1)"
+      },
+      "type":"background"
+    },
+    {
+      "filter":[
+        "all",
+        [
+          "==",
+          "class",
+          "crop"
+        ]
+      ],
+      "id":"landcover_cropland",
+      "layout":{
+        "visibility":"visible"
+      },
+      "paint":{
+        "fill-color":"rgba(243, 235, 195, 1)"
+      },
+      "source":"landcover",
+      "source-layer":"globallandcover",
+      "type":"fill"
+    },
+    {
+      "filter":[
+        "all",
+        [
+          "==",
+          "class",
+          "grass"
+        ]
+      ],
+      "id":"landcover_grassland",
+      "paint":{
+        "fill-color":"rgba(226, 236, 197, 1)"
+      },
+      "source":"landcover",
+      "source-layer":"globallandcover",
+      "type":"fill"
+    },
+    {
+      "filter":[
+        "all",
+        [
+          "==",
+          "class",
+          "scrub"
+        ]
+      ],
+      "id":"landcover_scrubland",
+      "paint":{
+        "fill-color":"rgba(199, 230, 179, 1)"
+      },
+      "source":"landcover",
+      "source-layer":"globallandcover",
+      "type":"fill"
+    },
+    {
+      "filter":[
+        "all",
+        [
+          "==",
+          "class",
+          "tree"
+        ]
+      ],
+      "id":"landcover_treeland",
+      "paint":{
+        "fill-color":"rgba(190, 222, 173, 1)"
+      },
+      "source":"landcover",
+      "source-layer":"globallandcover",
+      "type":"fill"
+    },
+    {
+      "filter":[
+        "all",
+        [
+          "==",
+          "class",
+          "forest"
+        ]
+      ],
+      "id":"landcover_forestland",
+      "paint":{
+        "fill-color":"rgba(171, 217, 170, 1)"
+      },
+      "source":"landcover",
+      "source-layer":"globallandcover",
+      "type":"fill"
+    },
+    {
+      "filter":[
+        "all",
+        [
+          "==",
+          "class",
+          "snow"
+        ]
+      ],
+      "id":"landcover_snowland",
+      "paint":{
+        "fill-color":"hsl(0, 0%, 100%)"
+      },
+      "source":"landcover",
+      "source-layer":"globallandcover",
+      "type":"fill"
+    },
+    {
+      "id": "hillshading",
+      "type": "hillshade",
+      "source": "terrain-rgb",
+      "paint": {
+        "hillshade-highlight-color": "hsla(141, 35%, 47%, 0.75)",
+        "hillshade-shadow-color": "hsla(130, 43%, 11%, 0.9)",
+        "hillshade-accent-color": "#dcf193"
+      }
+    }
+  ],
+  "name":"Streets",
+  "sources":{
+    "landcover":{
+      "type":"vector",
+      "url":`https://api.maptiler.com/tiles/landcover/tiles.json?key=${API_KEY}`
+    },
+    "terrain-rgb":{
+      "type":"raster-dem",
+      "url":`https://api.maptiler.com/tiles/15868a0c-081e-47fb-bc37-caf2c434813b/tiles.json?key=${API_KEY}`
+    }
+  },
+  "version":8
+}
+      
+      
       const TERRAIN_TILES = `https://api.maptiler.com/tiles/15868a0c-081e-47fb-bc37-caf2c434813b/{z}/{x}/{y}.webp?key=${API_KEY}`;
       const map = new maplibregl.Map({
         container: 'map', // container id
-        style: `${STYLE}/style.json?key=${API_KEY}`, // style URL
-        center: [11.40416, 47.26475], // starting position [lng, lat]
-        zoom: 12, // starting zoom
+        style: STYLE, // style URL
+        center: [133.407, 5.6461], // starting position [lng, lat]
+        zoom: 9, // starting zoom
         hash: true,
-        pitch: 67,
-        bearing: 11.2,
+        pitch: 73,
+        bearing: -151.2,
         maxPitch: 85
       });
 
       map.on('load', () => {
         // Add new sources and layers
+        /*
         map.addSource("terrain", {
           "type": "raster-dem",
           "tiles": [`${TERRAIN_TILES}`],
           "encoding": "mapbox",
           "maxzoom": 14
         });
+        */
         map.setTerrain({
-          source: "terrain"
+          source: "terrain-rgb"
         });
 
+        //map.setPaintProperty('water', 'fill-opacity', 0.5);
         //map.setLayoutProperty('water', 'visibility', 'none');
       });
 
