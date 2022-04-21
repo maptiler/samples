@@ -19,155 +19,472 @@
   <script type="module">
       const urlParams = new URLSearchParams(window.location.search);
       const API_KEY = urlParams.get('key');
-     //const STYLE = 'https://api.maptiler.com/maps/winter';
-     //const STYLE = 'https://labs.maptiler.com/terrain-demos/hillshading/simple.json';  
-     ///style.json?key=${API_KEY} 
-     //const TERRAIN = 'https://api.maptiler.com/tiles/terrain-rgb';
-     // Initialize the map
-      //const TERRAIN_TILES = `${TERRAIN}/{z}/{x}/{y}.png?key=${API_KEY}`;
-      
       const STYLE = {
-  "layers":[
-    {
-      "id":"background",
-      "layout":{
-        "visibility":"visible"
-      },
-      "paint":{
-        "background-color": "rgba(252, 247, 229, 1)"
-      },
-      "type":"background"
+  "version": 8,
+  "id": "d10c7dec-eea9-43de-b0ea-5528a9c48d0a",
+  "name": "Bathymetry",
+  "sources": {
+    "land": {
+      "url": `https://api.maptiler.com/tiles/land/tiles.json?key=${API_KEY}`,
+      "type": "vector"
     },
-    {
-      "filter":[
-        "all",
-        [
-          "==",
-          "class",
-          "crop"
-        ]
-      ],
-      "id":"landcover_cropland",
-      "layout":{
-        "visibility":"visible"
-      },
-      "paint":{
-        "fill-color":"rgba(243, 235, 195, 1)"
-      },
-      "source":"landcover",
-      "source-layer":"globallandcover",
-      "type":"fill"
+    "satellite": {
+      "url": `https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=${API_KEY}`,
+      "tileSize": 512,
+      "type": "raster"
     },
-    {
-      "filter":[
-        "all",
-        [
-          "==",
-          "class",
-          "grass"
-        ]
-      ],
-      "id":"landcover_grassland",
-      "paint":{
-        "fill-color":"rgba(226, 236, 197, 1)"
-      },
-      "source":"landcover",
-      "source-layer":"globallandcover",
-      "type":"fill"
+    "bathymetry": {
+      "url": `https://api.maptiler.com/tiles/ocean/tiles.json?key=${API_KEY}`,
+      "type": "vector"
     },
-    {
-      "filter":[
-        "all",
-        [
-          "==",
-          "class",
-          "scrub"
-        ]
-      ],
-      "id":"landcover_scrubland",
-      "paint":{
-        "fill-color":"rgba(199, 230, 179, 1)"
-      },
-      "source":"landcover",
-      "source-layer":"globallandcover",
-      "type":"fill"
+    "terrain_rgb": {
+      "url": `https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=${API_KEY}`,
+      "tileSize": 512,
+      "type": "raster-dem"
     },
-    {
-      "filter":[
-        "all",
-        [
-          "==",
-          "class",
-          "tree"
-        ]
-      ],
-      "id":"landcover_treeland",
-      "paint":{
-        "fill-color":"rgba(190, 222, 173, 1)"
-      },
-      "source":"landcover",
-      "source-layer":"globallandcover",
-      "type":"fill"
+    "openmaptiles": {
+      "url": `https://api.maptiler.com/tiles/v3/tiles.json?key=${API_KEY}`,
+      "type": "vector"
     },
-    {
-      "filter":[
-        "all",
-        [
-          "==",
-          "class",
-          "forest"
-        ]
-      ],
-      "id":"landcover_forestland",
-      "paint":{
-        "fill-color":"rgba(171, 217, 170, 1)"
-      },
-      "source":"landcover",
-      "source-layer":"globallandcover",
-      "type":"fill"
+    "maptiler_attribution": {
+      "attribution": "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">&copy; MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>",
+      "type": "vector"
     },
+    "bathymetry-global-rgb-nolimit": {
+      "url": `https://api.maptiler.com/tiles/15868a0c-081e-47fb-bc37-caf2c434813b/tiles.json?key=${API_KEY}`,
+      "tileSize": 512,
+      "type": "raster-dem"
+    }
+  },
+  "layers": [
     {
-      "filter":[
-        "all",
-        [
-          "==",
-          "class",
-          "snow"
-        ]
-      ],
-      "id":"landcover_snowland",
-      "paint":{
-        "fill-color":"hsl(0, 0%, 100%)"
+      "id": "background",
+      "type": "background",
+      "layout": {
+        "visibility": "visible"
       },
-      "source":"landcover",
-      "source-layer":"globallandcover",
-      "type":"fill"
-    },
-    {
-      "id": "hillshading",
-      "type": "hillshade",
-      "source": "terrain-rgb",
       "paint": {
-        "hillshade-highlight-color": "hsla(141, 35%, 47%, 0.75)",
-        "hillshade-shadow-color": "hsla(130, 43%, 11%, 0.9)",
-        "hillshade-accent-color": "#dcf193"
+        "background-color": "rgba(224, 224, 208, 1)"
+      }
+    },
+    {
+      "id": "satellite",
+      "type": "raster",
+      "source": "satellite",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "raster-opacity": {
+          "stops": [
+            [
+              1,
+              0.8
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        },
+        "raster-contrast": 0.2,
+        "raster-saturation": 0,
+        "raster-brightness-max": 1,
+        "raster-brightness-min": 0
+      }
+    },
+    {
+      "id": "land",
+      "type": "fill",
+      "source": "land",
+      "source-layer": "land",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": {
+          "stops": [
+            [
+              1,
+              "rgba(90, 90, 90, 1)"
+            ],
+            [
+              12,
+              "rgba(90, 90, 90, 0)"
+            ]
+          ]
+        },
+        "fill-antialias": true
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "#ffab02",
+        "fill-antialias": true
+      },
+      "filter": [
+        "any",
+        [
+          "!=",
+          "intermittent",
+          1
+        ],
+        [
+          "!=",
+          "brunnel",
+          "tunnel"
+        ]
+      ]
+    },
+    {
+      "id": "bathymetry",
+      "type": "fill",
+      "source": "bathymetry",
+      "source-layer": "contour",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": [
+          "interpolate",
+          [
+            "linear",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          3,
+          [
+            "match",
+            [
+              "get",
+              "depth"
+            ],
+            0,
+            "#ffab02",
+            [
+              50,
+              100
+            ],
+            "#FBBF03",
+            [
+              150,
+              200
+            ],
+            "#FAE301",
+            [
+              250,
+              500
+            ],
+            "#D0F800",
+            [
+              750,
+              1000
+            ],
+            "#38F64D",
+            [
+              1250,
+              1500,
+              1750
+            ],
+            "#00E4E4",
+            [
+              2000,
+              2500
+            ],
+            "#01ABDD",
+            [
+              3000,
+              3500
+            ],
+            "#0896E0",
+            [
+              4000,
+              4500
+            ],
+            "#1D5AEC",
+            [
+              5000,
+              5500
+            ],
+            "#672AF8",
+            [
+              6000,
+              6500
+            ],
+            "#7C13E2",
+            [
+              7000,
+              7500
+            ],
+            "#4D168C",
+            [
+              8000,
+              8500
+            ],
+            "#4D168C",
+            "#386995"
+          ],
+          4,
+          [
+            "match",
+            [
+              "get",
+              "depth"
+            ],
+            50,
+            "#FCAD05",
+            100,
+            "#FBBF03",
+            150,
+            "#FBD102",
+            200,
+            "#FAE301",
+            250,
+            "#FAF600",
+            500,
+            "#D0F800",
+            750,
+            "#A7FA01",
+            1000,
+            "#55FF02",
+            1250,
+            "#38F64D",
+            1500,
+            "#1CED98",
+            1750,
+            "#00E4E4",
+            2000,
+            "#00D1E1",
+            2500,
+            "#00BEDF",
+            3000,
+            "#01ABDD",
+            3500,
+            "#0896E0",
+            4000,
+            "#0F82E4",
+            4500,
+            "#166EE8",
+            5000,
+            "#1D5AEC",
+            5500,
+            "#4242F2",
+            6000,
+            "#672AF8",
+            6500,
+            "#8C12FF",
+            7000,
+            "#7C13E2",
+            7500,
+            "#6C14C5",
+            8000,
+            "#5C15A8",
+            8500,
+            "#4D168C",
+            9000,
+            "#3C1075",
+            9500,
+            "#2C0A5E",
+            10000,
+            "#1C0447",
+            12000,
+            "#110030",
+            "#527AA2"
+          ]
+        ],
+        "fill-opacity": 1,
+        "fill-antialias": true
+      }
+    },
+    {
+      "id": "contour",
+      "type": "line",
+      "source": "bathymetry",
+      "source-layer": "contour",
+      "minzoom": 8.0,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-blur": 0.2,
+        "line-color": "rgba(198, 219, 245, 1)",
+        "line-width": 1,
+        "line-opacity": {
+          "stops": [
+            [
+              9,
+              0.05
+            ],
+            [
+              14,
+              0.3
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "terrain",
+      "type": "hillshade",
+      "source": "bathymetry-global-rgb-nolimit",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "hillshade-accent-color": "rgba(126, 126, 126, 1)",
+        "hillshade-shadow-color": "rgba(0, 0, 0, 0.5)",
+        "hillshade-highlight-color": "rgba(255, 255, 255, 0.75)"
+      }
+    },
+    {
+      "id": "waterway",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "waterway",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-blur": 0.25,
+        "line-color": "#ffab02",
+        "line-width": {
+          "stops": [
+            [
+              4,
+              0.5
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              13,
+              1.5
+            ]
+          ]
+        },
+        "line-opacity": 1
+      },
+      "filter": [
+        "all"
+      ]
+    },
+    {
+      "id": "depth",
+      "type": "symbol",
+      "source": "bathymetry",
+      "source-layer": "contour",
+      "minzoom": 9.0,
+      "layout": {
+        "text-font": [
+          "Libre Baskerville Italic"
+        ],
+        "text-size": {
+          "stops": [
+            [
+              9,
+              9
+            ],
+            [
+              12,
+              11
+            ],
+            [
+              14,
+              13
+            ]
+          ]
+        },
+        "text-field": [
+          "concat",
+          "-",
+          " ",
+          [
+            "get",
+            "depth"
+          ]
+        ],
+        "visibility": "visible",
+        "text-justify": "center",
+        "text-padding": {
+          "stops": [
+            [
+              9,
+              20
+            ],
+            [
+              12,
+              0
+            ]
+          ]
+        },
+        "symbol-placement": "point",
+        "symbol-avoid-edges": false
+      },
+      "paint": {
+        "text-color": [
+          "interpolate",
+          [
+            "linear",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          [
+            "case",
+            [
+              "<",
+              [
+                "get",
+                "depth"
+              ],
+              5000
+            ],
+            "rgba(28, 62, 101, 1)",
+            "rgb(164, 193, 221)"
+          ],
+          12,
+          [
+            "case",
+            [
+              "<",
+              [
+                "get",
+                "depth"
+              ],
+              5000
+            ],
+            " rgba(2, 32, 61, 1)",
+            "rgb(177, 208, 239)"
+          ]
+        ]
       }
     }
   ],
-  "name":"Streets",
-  "sources":{
-    "landcover":{
-      "type":"vector",
-      "url":`https://api.maptiler.com/tiles/landcover/tiles.json?key=${API_KEY}`
-    },
-    "terrain-rgb":{
-      "type":"raster-dem",
-      "url":`https://api.maptiler.com/tiles/15868a0c-081e-47fb-bc37-caf2c434813b/tiles.json?key=${API_KEY}`
-    }
+  "metadata": {
+    "maptiler:copyright": "This style was generated on MapTiler Cloud. Usage outside of MapTiler Cloud or MapTiler Server requires valid MapTiler Data package: https://www.maptiler.com/data/ -- please contact us."
   },
-  "version":8
+  "glyphs": `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${API_KEY}`,
+  "bearing": -0.36033301940472023,
+  "pitch": 0.0,
+  "center": [
+    -51.301153492742856,
+    -7.041390984569134
+  ],
+  "zoom": 1.6063864478035341
 }
-      
+
       
       const TERRAIN_TILES = `https://api.maptiler.com/tiles/15868a0c-081e-47fb-bc37-caf2c434813b/{z}/{x}/{y}.webp?key=${API_KEY}`;
       const map = new maplibregl.Map({
@@ -182,21 +499,12 @@
       });
 
       map.on('load', () => {
-        // Add new sources and layers
-        /*
-        map.addSource("terrain", {
-          "type": "raster-dem",
-          "tiles": [`${TERRAIN_TILES}`],
-          "encoding": "mapbox",
-          "maxzoom": 14
-        });
-        */
+       
         map.setTerrain({
-          source: "terrain-rgb"
+          source: "bathymetry-global-rgb-nolimit",
+          exaggeration: 2.5
         });
-
-        //map.setPaintProperty('water', 'fill-opacity', 0.5);
-        //map.setLayoutProperty('water', 'visibility', 'none');
+        
       });
 
       map.on('error', function(err) {
