@@ -29,23 +29,40 @@
 	      z-index: 1;
 		  }
 		 	.legend i {
-			  width: 18px; 
-				height: 18px; 
-				float: left; 
-				margin-right: 8px; 
-				opacity: 1; 
+			  width: 18px;
+				height: 18px;
+				float: left;
+				margin-right: 8px;
+				opacity: 1;
 			}
     </style>
+    <script async>
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-K6SD2VP');
+    </script>
   </head>
   <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6SD2VP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="map">
       <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
     </div>
     <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
-    
+
     <script>
 			const apikey = 'ikPbJwwEEbaMHCvgAxpQ';
-    
+
     	//load the basemap
       var map = L.map('map').setView([55.99870, 15.27683], 4);
       //create a pan
@@ -124,7 +141,7 @@
 					to = grades[i + 0.9];
 					labels.push(
 						'<i style="background:' + getColor(from + 1) + '"></i> ' +
-						from 
+						from
 					);
 				}
 				div.innerHTML ='<h3>Mean age of </br> women at first marriage </br> in 2019</h3>' + labels.join('<br>');

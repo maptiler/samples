@@ -10,7 +10,22 @@
       <link rel="stylesheet" href="https://cdn.maptiler.com/ol/v6.0.0/ol.css">
        <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->
       <script src="https://unpkg.com/elm-pep"></script>
-
+      <script async>
+        (function(w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+          });
+          var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-K6SD2VP');
+      </script>
       <style>
         #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
 
@@ -84,6 +99,7 @@
       </style>
     </head>
     <body>
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6SD2VP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div id="map">
         <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
         <div id="popup" class="ol-popup">
@@ -95,7 +111,7 @@
 
 
       <!--legend-->
-      <div id="state-legend" class="legend"> 
+      <div id="state-legend" class="legend">
         <h4>Mean age of </br> women at first marriage </h4>
           <div><span style="background-color: #fff5eb"></span>23</div>
           <div><span style="background-color: #fee6ce"></span>24</div>
@@ -108,7 +124,7 @@
       </div>
     <script>
       const apikey = 'ikPbJwwEEbaMHCvgAxpQ';
-      
+
       //define JSON style of a map
       const styleJson = `https://api.maptiler.com/maps/08a178db-70e3-4637-bcee-c3e63d17764c/style.json?key=${apikey}`;
 
@@ -208,4 +224,3 @@
 </script>
 </body>
 </html>
-    

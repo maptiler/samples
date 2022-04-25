@@ -5,11 +5,27 @@
 	  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
 		<title>MapTiler Custom data demo</title>
     <link rel="stylesheet" href="Widgets/widgets.css">
-
+		<script async>
+	    (function(w, d, s, l, i) {
+	      w[l] = w[l] || [];
+	      w[l].push({
+	        'gtm.start': new Date().getTime(),
+	        event: 'gtm.js'
+	      });
+	      var f = d.getElementsByTagName(s)[0],
+	        j = d.createElement(s),
+	        dl = l != 'dataLayer' ? '&l=' + l : '';
+	      j.async = true;
+	      j.src =
+	        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+	      f.parentNode.insertBefore(j, f);
+	    })(window, document, 'script', 'dataLayer', 'GTM-K6SD2VP');
+	  </script>
 <style>
 </style>
 	</head>
 	<body>
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6SD2VP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<div id="cesiumContainer"></div>
         <div id="baseLayerPickerContainer" style="position:absolute;top:24px;right:24px;width:38px;height:38px;"></div>
 	<script type="text/javascript" src="app.js"></script></body>
