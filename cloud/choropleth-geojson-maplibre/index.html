@@ -7,6 +7,22 @@
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
     <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
+    <script async>
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-K6SD2VP');
+    </script>
     <!-- map and legend styling -->
     <style>
       #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
@@ -37,6 +53,7 @@
     </style>
   </head>
   <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6SD2VP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="map"></div> <!-- map holder -->
     <!-- legend -->
     <div id="state-legend" class="legend">

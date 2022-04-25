@@ -13,12 +13,29 @@
 	body { margin: 0; padding: 0; }
 	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
 </style>
+<script async>
+	(function(w, d, s, l, i) {
+		w[l] = w[l] || [];
+		w[l].push({
+			'gtm.start': new Date().getTime(),
+			event: 'gtm.js'
+		});
+		var f = d.getElementsByTagName(s)[0],
+			j = d.createElement(s),
+			dl = l != 'dataLayer' ? '&l=' + l : '';
+		j.async = true;
+		j.src =
+			'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+		f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'dataLayer', 'GTM-K6SD2VP');
+</script>
 </head>
 <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6SD2VP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="map"></div>
 <script>
     const API_KEY="ikPbJwwEEbaMHCvgAxpQ";
-    
+
     class searchControl {
         onAdd(map) {
             this._map = map;
@@ -38,7 +55,7 @@
               sourceResults.features = [item];
               map.getSource('search-results').setData(sourceResults);
             });
-            
+
             return this._container;
         }
 
@@ -46,7 +63,7 @@
             this._container.parentNode.removeChild(this._container);
             this._map = undefined;
         }
-    }    
+    }
 
     const map = new maplibregl.Map({
         container: 'map', // container id
@@ -78,7 +95,7 @@
             },
             'filter': ['==', '$type', 'LineString']
         });
-        
+
         map.addLayer({
             'id': 'point-result',
             'type': 'circle',
