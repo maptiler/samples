@@ -20,7 +20,7 @@ The parameters supported by the viewer are:
 > :warning: You must replace **YOUR_API_KEY_HERE** in the URL with your MapTiler API key. If you don't have a MapTiler Cloud account, you can create an [account for FREE](https://cloud.maptiler.com/start).
 
 ```html
-<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
+<iframe src="https://www.maptiler.com/nls/placename/?q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
 ```
 In the example above:
 
@@ -28,7 +28,7 @@ In the example above:
 * type = tiles
 * id = uk-osgb63k1885
 
-#### [Demo](https://labs.maptiler.com/samples/cloud/placename/demo.html?q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE)
+#### [Demo](https://www.maptiler.com/nls/placename/?q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE)
 
 
 ### Winter map with ski slopes centered on Val Thorens
@@ -36,7 +36,7 @@ In the example above:
 > :warning: You must replace **YOUR_API_KEY_HERE** in the URL with your MapTiler API key. If you don't have a MapTiler Cloud account, you can create an [account for FREE](https://cloud.maptiler.com/start).
 
 ```html
-<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
+<iframe src="https://www.maptiler.com/nls/placename/?q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0"></iframe>
 ```
 In the example above:
 
@@ -44,7 +44,7 @@ In the example above:
 * type = maps
 * id = winter
 
-#### [Demo](https://labs.maptiler.com/samples/cloud/placename/demo.html?q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE)
+#### [Demo](https://www.maptiler.com/nls/placename/?q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE)
 
 ### Streets map centered on the geolocation provided by browsers.
 
@@ -53,7 +53,7 @@ In the example above:
 > :warning: Please read carefully [Feature-Policy: geolocation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/geolocation) to use the **auto** option in an iframe as it is an **experimental technology**.
 
 ```html
-<iframe src="https://labs.maptiler.com/samples/cloud/placename/index.html?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0" allow="geolocation"></iframe>
+<iframe src="https://www.maptiler.com/nls/placename/?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE" width="500" height="300" frameborder="0" allow="geolocation"></iframe>
 ```
 In the example above:
 
@@ -61,7 +61,7 @@ In the example above:
 * type = maps
 * id = streets
 
-#### [Demo](https://labs.maptiler.com/samples/cloud/placename/demo.html?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE)
+#### [Demo](https://www.maptiler.com/nls/placename/?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE)
 
 
 Check out the article [How to center iframe map on a placename](https://documentation.maptiler.com/hc/en-us/articles/4978914787601) for more information.
