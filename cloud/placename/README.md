@@ -28,7 +28,7 @@ In the example above:
 * type = tiles
 * id = uk-osgb63k1885
 
-#### [Demo](https://www.maptiler.com/nls/placename/?q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE)
+#### [Demo](https://www.maptiler.com/nls/placename/?utm_medium=referral&utm_source=github&utm_campaign=2022-04%20%7C%20demo&q=london&type=tiles&id=uk-osgb63k1885&key=YOUR_API_KEY_HERE)
 
 
 ### Winter map with ski slopes centered on Val Thorens
@@ -44,7 +44,7 @@ In the example above:
 * type = maps
 * id = winter
 
-#### [Demo](https://www.maptiler.com/nls/placename/?q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE)
+#### [Demo](https://www.maptiler.com/nls/placename/?utm_medium=referral&utm_source=github&utm_campaign=2022-04%20%7C%20demo&q=val%20thorens&type=maps&id=winter&key=YOUR_API_KEY_HERE)
 
 ### Streets map centered on the geolocation provided by browsers.
 
@@ -61,7 +61,6 @@ In the example above:
 * type = maps
 * id = streets
 
-#### [Demo](https://www.maptiler.com/nls/placename/?q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE)
-
+#### [Demo](https://www.maptiler.com/nls/placename/?utm_medium=referral&utm_source=github&utm_campaign=2022-04%20%7C%20demo&q=auto&type=maps&id=streets&key=YOUR_API_KEY_HERE)
 
 Check out the article [How to center iframe map on a placename](https://documentation.maptiler.com/hc/en-us/articles/4978914787601) for more information.
