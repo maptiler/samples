@@ -19,7 +19,7 @@
   <script type="module">
       const urlParams = new URLSearchParams(window.location.search);
       const API_KEY = urlParams.get('key');      
-      const TERRAIN_TILES = `https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key=${API_KEY}`;
+      const TERRAIN_TILES = `https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=${API_KEY}`;
       const map = new maplibregl.Map({
         container: 'map', // container id
         style: `https://api.maptiler.com/maps/winter/style.json?key=${API_KEY}`, // style URL
@@ -36,9 +36,7 @@
         // Add new sources and layers
         map.addSource("terrain", {
           "type": "raster-dem",
-          "tiles": [TERRAIN_TILES],
-          "encoding": "mapbox",
-          "maxzoom": 14
+          "url": TERRAIN_TILES
         });
        
         map.setTerrain({
