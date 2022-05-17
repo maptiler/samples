@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Map</title>
   <link rel="icon" href="../../assets/favicon.ico">
-  <script type="module" src='./lib/maplibre-gl.js'></script>
-  <link rel='stylesheet' href='./lib/maplibre-gl.css' />
+  <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.js"></script>
+  <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.css" rel="stylesheet" />
   <style>
     body { margin: 0; padding: 0; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -18,7 +18,7 @@
   <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
   <script type="module">
       const urlParams = new URLSearchParams(window.location.search);
-      const API_KEY = urlParams.get('key');
+      const API_KEY = urlParams.get('key') || 'YOUR_MAPTILER_API_KEY_HERE';
       const STYLE = {
   "version": 8,
   "id": "d10c7dec-eea9-43de-b0ea-5528a9c48d0a",
@@ -508,7 +508,7 @@
       });
 
       map.on('error', function(err) {
-        throw new Error("To load the map, you must replace YOUR_API_KEY first, see README");
+        throw new Error("To load the map, you must replace YOUR_MAPTILER_API_KEY_HERE first, see README");
       });
 
   </script>
