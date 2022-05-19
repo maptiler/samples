@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Map</title>
+  <title>3D outdoor map</title>
   <link rel="icon" href="../../assets/favicon.ico">
   <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.js"></script>
   <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.css" rel="stylesheet" />
@@ -23,12 +23,13 @@
       const map = new maplibregl.Map({
         container: 'map', // container id
         style: `https://api.maptiler.com/maps/outdoor/style.json?key=${API_KEY}`, // style URL
-        center: [11.40416, 47.264751], // starting position [lng, lat]
-        zoom: 12, // starting zoom
+        center: [6.85684, 45.83595], // starting position [lng, lat]
+        zoom: 14, // starting zoom
         hash: true,
-        pitch: 67,
-        bearing: 11.2,
-        maxPitch: 85
+        pitch: 61,
+        bearing: 172,
+        maxPitch: 85,
+        maxZoom: 14
       });
 
       map.on('load', () => {
