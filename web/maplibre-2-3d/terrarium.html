@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D winter map</title>
+  <link rel="icon" href="../../assets/favicon.ico">
+  <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.js"></script>
+  <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+  <script type="module">
+      const urlParams = new URLSearchParams(window.location.search);
+      const API_KEY = urlParams.get('key') || 'YOUR_MAPTILER_API_KEY_HERE';      
+      const TERRAIN_TILES = `https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=${API_KEY}`;
+      const map = new maplibregl.Map({
+        container: 'map', // container id
+        style: `https://api.maptiler.com/maps/winter/style.json?key=${API_KEY}`, // style URL
+        center: [11.40416, 47.264751], // starting position [lng, lat]
+        zoom: 12, // starting zoom
+        hash: true,
+        pitch: 67,
+        bearing: 11.2,
+        maxPitch: 85
+      });
+
+      map.on('load', () => {
+
+        // Add new sources and layers
+        map.addSource("terrain", {
+          "type": "raster-dem",
+          "tiles": ["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],
+          "encoding": "terrarium"
+        });
+       
+        map.setTerrain({
+          source: "terrain"
+        });
+        
+      });
+
+      map.on('error', function(err) {
+        throw new Error("To load the map, you must replace YOUR_MAPTILER_API_KEY_HERE first, see README");
+      });
+
+  </script>
+</body>
+</html>
