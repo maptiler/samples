@@ -40,7 +40,7 @@
         src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
   </div>
   <script>
-    const API_KEY="ikPbJwwEEbaMHCvgAxpQ";
+    const API_KEY= "ikPbJwwEEbaMHCvgAxpQ";
     const parser = new ol.format.WMTSCapabilities();
     fetch(`https://api.maptiler.com/maps/basic-v2/WMTSCapabilities.xml?key=${API_KEY}`)
       .then(function (response) {
@@ -49,7 +49,7 @@
       .then(function (text) {
         const result = parser.read(text);
         const options = ol.source.WMTS.optionsFromCapabilities(result, {
-          layer: 'maps/basic',
+          layer: 'maps/basic-v2',
           matrixSet: 'GoogleMapsCompatible512-z0-22'
         });
         const map = new ol.Map({
