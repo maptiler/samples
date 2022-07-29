@@ -1,6 +1,6 @@
 # MapTiler samples
 
-Code examples of how to use the MapTiler API with live demos.
+Code examples of how to use the [MapTiler Maps API](https://www.maptiler.com/cloud/) with live demos.
 
 ## Live demos
 ### MapTiler Cloud
