@@ -4,7 +4,7 @@
     "gray-shading-tiles": {
       "type": "raster",
       "tiles": [
-        "https://dmr5-shading.tiles.freemap.sk/{z}/{x}/{y}.jpg"
+        "https://api.maptiler.com/tiles/a67509a7-a7a1-460f-841f-5caa37f5608a/{z}/{x}/{y}.jpg?key=lmYA16sOOOz9r6DH7iA9"
       ],
       "tileSize": 128,
       "attribution": "<a href=\"https://www.geoportal.sk/files/zbgis/objednavky/podmienky-poskytovania-pouzivania-produktov-lls.pdf\" target=\"_blank\">&copy; ÚGKK SR</a>"
