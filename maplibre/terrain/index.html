@@ -208,35 +208,22 @@
           this.placeIndex = 0;
         }
 
-        addButton(style, lat, lng, zoom, bearing, pitch, b3d = true) {
+        addButton(lat, lng, zoom, bearing, pitch) {
           const b = document.createElement("button");
 
           this.placeIndex++;
 
           b.id = "btn-place-" + this.placeIndex;
-          // b.style.backgroundImage = `url(icons/${style}.svg)`;
-          // b.style.backgroundRepeat = "no-repeat";
-          // b.style.backgroundPosition = "50%";
 
           b.innerText = this.placeIndex;
 
           b.addEventListener("click", () => {
-            this._map.setStyle(getStyle(style));
-
-            activeStyle = style;
-
             this._map.flyTo({
               center: [lng, lat],
               zoom,
               bearing,
               pitch,
             });
-
-            is3d = b3d;
-
-            toggle3d();
-
-            syncButtons();
           });
 
           this._container.appendChild(b);
@@ -250,43 +237,19 @@
           this._container.className =
             "maplibregl-ctrl maplibregl-ctrl-group mapboxgl-ctrl mapboxgl-ctrl-group";
 
-          this.addButton(
-            "gray-shading",
-            48.59083031,
-            20.46504021,
-            14.48,
-            46.74,
-            73.57
-          );
+          this.addButton(48.59083031, 20.46504021, 14.48, 46.74, 73.57);
 
-          this.addButton(
-            "gray-shading",
-            48.57275966,
-            20.41566342,
-            17.48,
-            69.14,
-            76.57
-          );
+          this.addButton(48.57275966, 20.41566342, 17.48, 69.14, 76.57);
 
-          this.addButton(
-            "satellite",
-            48.57213495,
-            20.45240164,
-            16.64,
-            15.43,
-            76.08,
-            true
-          );
+          this.addButton(48.57213495, 20.45240164, 16.64, 15.43, 76.08);
 
-          this.addButton(
-            "satellite",
-            48.62995886,
-            20.82979918,
-            14.72,
-            -21.6,
-            72.5,
-            true
-          );
+          this.addButton(48.62995886, 20.82979918, 14.72, -21.6, 72.5);
+
+          this.addButton(48.85855859, 20.38233129, 16.2, 0.0, 75.5);
+
+          this.addButton(49.01938074, 19.90412593, 15.85, -127.47, 75.13);
+
+          this.addButton(49.01278053,19.93089437,15.74,-108.80,78.00);
 
           return this._container;
         }
