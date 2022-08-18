@@ -24,6 +24,10 @@ Code examples of how to use the [MapTiler Maps API](https://www.maptiler.com/clo
 - [Geocoder component - MapLibre](https://labs.maptiler.com/samples/web/geocoder-component/)
 - [MapTiler terrain GLTF - Three.js](https://labs.maptiler.com/samples/web/threejs-gltf/)
 
+## Maplibre
+
+- [MapLibre Terrain Demo](https://labs.maptiler.com/samples/maplibre/terrain/)
+
 ## Contributing
 
 Please create a folder per article or usecase in the product's folder. The website has an autobuild to https://labs.maptiler.com/samples/

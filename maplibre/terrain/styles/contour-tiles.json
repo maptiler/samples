@@ -1,0 +1,17 @@
+{
+  "center": [19.2008, 48.9128, 10.78],
+  "minzoom": 10,
+  "maxzoom": 14,
+  "bounds": [-180, -85.05112877980659, 180, 85.0511287798066],
+  "vector_layers": [
+    {
+      "id": "contour_sk_split",
+      "description": "",
+      "minzoom": 10,
+      "maxzoom": 14
+    }
+  ],
+  "tilejson": "2.2.0",
+  "tiles": ["https://api.maptiler.com/tiles/e9a65d79-2526-4c00-ae30-1587af23675e/{z}/{x}/{y}.pbf?key=lmYA16sOOOz9r6DH7iA9"],
+  "scheme": "xyz"
+}

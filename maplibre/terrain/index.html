@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <script src="https://unpkg.com/maplibre-gl@2.3.0/dist/maplibre-gl.js"></script>
+    <link
+      href="https://unpkg.com/maplibre-gl@2.3.0/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      #map {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      button.btn-active {
+        background-color: #aaf !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script>
+      const styles = ["outdoor", "freemap-outdoor", "satellite", "gray-shading"];
+
+      const sp = new URLSearchParams(window.location.hash.slice(1));
+
+      let activeStyle = sp.get("style");
+
+      if (!styles.includes(activeStyle)) {
+        activeStyle = "outdoor";
+      }
+
+      let is3d = sp.get("3d") === "true";
+
+      function getStyle(style) {
+        if (style !== "freemap-outdoor") {
+          return `styles/${style}.json`;
+        } else {
+          const dpr = window.devicePixelRatio || 1;
+
+          return {
+            version: 8,
+            sources: {
+              "outdoor-tiles": {
+                type: "raster",
+                tiles: [
+                  "https://outdoor.tiles.freemap.sk/{z}/{x}/{y}" +
+                    (dpr < 1.5 ? "" : dpr < 2.5 ? "@2x" : "@3x"),
+                ],
+                tileSize: 256,
+                attribution:
+                  'Map tiles by <a target="_top" rel="noopener" href="https://www.freemap.sk">Freemap Slovakia</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>',
+              },
+              terrain: {
+                type: "raster-dem",
+                url: "styles/terrain-tiles.json",
+                encoding: "terrarium",
+              },
+            },
+            layers: [
+              {
+                id: "outdoor-tiles",
+                type: "raster",
+                source: "outdoor-tiles",
+                minzoom: 0,
+                maxzoom: 19,
+              },
+            ],
+          };
+        }
+      }
+
+      const map = new maplibregl.Map({
+        container: "map",
+        style: getStyle(activeStyle),
+        center: [
+          Number(sp.get("lng")) || 19.22524156,
+          Number(sp.get("lat")) || 48.64780633,
+        ],
+        zoom: Number(sp.get("zoom")) || 5,
+        bearing: Number(sp.get("bearing")) || 0,
+        pitch: Number(sp.get("pitch")) || 0,
+        maxPitch: 85,
+      });
+
+      function toggle3d() {
+        const has = !!map.getTerrain();
+
+        if (has !== is3d) {
+          map.setTerrain(
+            is3d
+              ? {
+                  source: "terrain",
+                  exaggeration: 1,
+                }
+              : null
+          );
+        }
+      }
+
+      setInterval(toggle3d, 1000);
+
+      function handle3dClick() {
+        is3d = !is3d;
+
+        toggle3d();
+
+        // map.setTerrain(map.getTerrain() ? null : {
+        //   source: "terrain-rgb",
+        //   exaggeration: 1,
+        // });
+
+        setUrl();
+
+        syncButtons();
+      }
+
+      class Toggle3dControl {
+        onAdd(map) {
+          this._map = map;
+
+          this._container = document.createElement("div");
+
+          this._container.className =
+            "maplibregl-ctrl maplibregl-ctrl-group mapboxgl-ctrl mapboxgl-ctrl-group";
+
+          const b = document.createElement("button");
+
+          b.id = "btn-3d";
+
+          b.style.backgroundImage = "url(icons/terrain.svg)";
+          b.style.backgroundRepeat = "no-repeat";
+          b.style.backgroundPosition = "50%";
+
+          b.addEventListener("click", handle3dClick);
+
+          this._container.appendChild(b);
+
+          return this._container;
+        }
+
+        onRemove() {
+          this._container.parentNode.removeChild(this._container);
+          this._map = undefined;
+        }
+      }
+
+      class SwitchLayerControl {
+        addButton(style) {
+          const b = document.createElement("button");
+
+          b.id = "btn-style-" + style;
+          b.title = style + " style";
+          b.style.backgroundImage = `url(icons/${style}.svg)`;
+          b.style.backgroundRepeat = "no-repeat";
+          b.style.backgroundPosition = "50%";
+          b.style.padding = "12px";
+
+          b.addEventListener("click", () => {
+            this._map.setStyle(getStyle(style));
+
+            activeStyle = style;
+
+            setUrl();
+
+            syncButtons();
+          });
+
+          this._container.appendChild(b);
+        }
+
+        onAdd(map) {
+          this._map = map;
+
+          this._container = document.createElement("div");
+
+          this._container.className =
+            "maplibregl-ctrl maplibregl-ctrl-group mapboxgl-ctrl mapboxgl-ctrl-group";
+
+          for (const style of styles) {
+            this.addButton(style);
+          }
+
+          return this._container;
+        }
+
+        onRemove() {
+          this._container.parentNode.removeChild(this._container);
+          this._map = undefined;
+        }
+      }
+
+      map.addControl(
+        new maplibregl.NavigationControl({ visualizePitch: true })
+      );
+
+      map.addControl(new SwitchLayerControl());
+
+      map.addControl(new Toggle3dControl());
+
+      map.on("load", () => {
+        toggle3d(is3d);
+
+        setUrl();
+
+        syncButtons();
+      });
+
+      map.on("moveend", setUrl);
+
+      function makeHash() {
+        const p = new URLSearchParams();
+
+        p.set("style", activeStyle);
+        p.set("lat", map.getCenter().lat.toFixed(8));
+        p.set("lng", map.getCenter().lng.toFixed(8));
+        p.set("zoom", map.getZoom().toFixed(2));
+        p.set("bearing", map.getBearing().toFixed(2));
+        p.set("pitch", map.getPitch().toFixed(2));
+        p.set("3d", is3d);
+
+        return "#" + p.toString();
+      }
+
+      function syncButtons() {
+        for (const s of styles) {
+          document
+            .getElementById("btn-style-" + s)
+            .classList.toggle("btn-active", s === activeStyle);
+        }
+
+        document.getElementById("btn-3d").classList.toggle("btn-active", is3d);
+      }
+
+      function setUrl() {
+        window.location.hash = makeHash();
+      }
+
+      syncButtons();
+
+      window.addEventListener("hashchange", () => {
+        if (makeHash() !== window.location.hash) {
+          console.log(makeHash(), window.location.hash);
+
+          const sp = new URLSearchParams(window.location.hash.slice(1));
+
+          activeStyle = sp.get("style");
+
+          map.setStyle(getStyle(activeStyle));
+
+          is3d = sp.get("3d") === "true";
+
+          toggle3d();
+
+          map.setCenter({
+            lat: Number(sp.get("lat")),
+            lng: Number(sp.get("lng")),
+          });
+
+          map.setZoom(Number(sp.get("zoom")));
+
+          map.setBearing(Number(sp.get("bearing")));
+
+          map.setPitch(Number(sp.get("pitch")));
+        }
+      });
+    </script>
+  </body>
+</html>

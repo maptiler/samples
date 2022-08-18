@@ -1,0 +1,28 @@
+{
+  "version": 8,
+  "sources": {
+    "ofmozaika-tiles": {
+      "type": "raster",
+      "tiles": [
+        "https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=lmYA16sOOOz9r6DH7iA9"
+      ],
+      "tileSize": 128,
+      "attribution": "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">&copy; MapTiler</a>"
+    },
+    "terrain": {
+      "type": "raster-dem",
+      "url": "styles/terrain-tiles.json",
+      "encoding": "terrarium",
+      "attribution": "<a href=\"https://www.geoportal.sk/files/zbgis/objednavky/podmienky-poskytovania-pouzivania-produktov-lls.pdf\" target=\"_blank\">&copy; ÚGKK SR</a>"
+    }
+  },
+  "layers": [
+    {
+      "id": "ofmozaika-tiles",
+      "type": "raster",
+      "source": "ofmozaika-tiles",
+      "minzoom": 0,
+      "maxzoom": 19
+    }
+  ]
+}
