@@ -168,7 +168,6 @@
           b.style.backgroundImage = `url(icons/${style}.svg)`;
           b.style.backgroundRepeat = "no-repeat";
           b.style.backgroundPosition = "50%";
-          b.style.padding = "12px";
 
           b.addEventListener("click", () => {
             this._map.setStyle(getStyle(style));
@@ -204,6 +203,100 @@
         }
       }
 
+      class InterestingPlacesControl {
+        constructor() {
+          this.placeIndex = 0;
+        }
+
+        addButton(style, lat, lng, zoom, bearing, pitch, b3d = true) {
+          const b = document.createElement("button");
+
+          this.placeIndex++;
+
+          b.id = "btn-place-" + this.placeIndex;
+          // b.style.backgroundImage = `url(icons/${style}.svg)`;
+          // b.style.backgroundRepeat = "no-repeat";
+          // b.style.backgroundPosition = "50%";
+
+          b.innerText = this.placeIndex;
+
+          b.addEventListener("click", () => {
+            this._map.setStyle(getStyle(style));
+
+            activeStyle = style;
+
+            this._map.flyTo({
+              center: [lng, lat],
+              zoom,
+              bearing,
+              pitch,
+            });
+
+            is3d = b3d;
+
+            toggle3d();
+
+            syncButtons();
+          });
+
+          this._container.appendChild(b);
+        }
+
+        onAdd(map) {
+          this._map = map;
+
+          this._container = document.createElement("div");
+
+          this._container.className =
+            "maplibregl-ctrl maplibregl-ctrl-group mapboxgl-ctrl mapboxgl-ctrl-group";
+
+          this.addButton(
+            "gray-shading",
+            48.59083031,
+            20.46504021,
+            14.48,
+            46.74,
+            73.57
+          );
+
+          this.addButton(
+            "gray-shading",
+            48.57275966,
+            20.41566342,
+            17.48,
+            69.14,
+            76.57
+          );
+
+          this.addButton(
+            "satellite",
+            48.57213495,
+            20.45240164,
+            16.64,
+            15.43,
+            76.08,
+            true
+          );
+
+          this.addButton(
+            "satellite",
+            48.62995886,
+            20.82979918,
+            14.72,
+            -21.6,
+            72.5,
+            true
+          );
+
+          return this._container;
+        }
+
+        onRemove() {
+          this._container.parentNode.removeChild(this._container);
+          this._map = undefined;
+        }
+      }
+
       map.addControl(
         new maplibregl.NavigationControl({ visualizePitch: true })
       );
@@ -211,6 +304,8 @@
       map.addControl(new SwitchLayerControl());
 
       map.addControl(new Toggle3dControl());
+
+      map.addControl(new InterestingPlacesControl());
 
       map.on("load", () => {
         toggle3d(is3d);
