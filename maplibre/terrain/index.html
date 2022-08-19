@@ -23,11 +23,24 @@
       button.btn-active {
         background-color: #aaf !important;
       }
+
+      .watermark {
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        z-index: 999;
+      }
     </style>
   </head>
 
   <body>
     <div id="map"></div>
+
+    <a href="https://www.maptiler.com" class="watermark"
+      ><img
+        src="https://api.maptiler.com/resources/logo.svg"
+        alt="MapTiler logo"
+    /></a>
 
     <script>
       const styles = [
@@ -89,13 +102,14 @@
         container: "map",
         style: getStyle(activeStyle),
         center: [
-          Number(sp.get("lng")) || 19.22524156,
-          Number(sp.get("lat")) || 48.64780633,
+          Number(sp.get("lng")) || 19.23735084,
+          Number(sp.get("lat")) || 48.67262498,
         ],
-        zoom: Number(sp.get("zoom")) || 5,
+        zoom: Number(sp.get("zoom")) || 8.26,
         bearing: Number(sp.get("bearing")) || 0,
         pitch: Number(sp.get("pitch")) || 0,
         maxPitch: 85,
+        bearingSnap: 0,
       });
 
       function toggle3d() {
@@ -248,16 +262,15 @@
 
           this.addButton(48.85855859, 20.38233129, 16.2, 0.0, 75.5);
 
-          this.addButton(48.75212862, 20.05307436, 14.53, 35.20, 75.46);
+          this.addButton(48.75212862, 20.05307436, 14.53, 35.2, 75.46);
 
           this.addButton(49.01938074, 19.90412593, 15.85, -127.47, 75.13);
 
-          this.addButton(49.01278053,19.93089437,15.74,-108.80,78.00);
+          this.addButton(49.01278053, 19.93089437, 15.74, -108.8, 78.0);
 
           this.addButton(49.16500955, 20.13770342, 14.68, -141.64, 72.14);
 
           this.addButton(49.21051857, 20.23518562, 14.51, -128.58, 77.14);
-
 
           return this._container;
         }
