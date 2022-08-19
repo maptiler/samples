@@ -1,26 +1,21 @@
 {
   "version": 8,
   "sources": {
-    "gray-shading-tiles": {
+    "gray-shading": {
       "type": "raster",
-      "tiles": [
-        "https://api.maptiler.com/tiles/a67509a7-a7a1-460f-841f-5caa37f5608a/{z}/{x}/{y}.jpg?key=lmYA16sOOOz9r6DH7iA9"
-      ],
-      "tileSize": 128,
-      "attribution": "<a href=\"https://www.geoportal.sk/files/zbgis/objednavky/podmienky-poskytovania-pouzivania-produktov-lls.pdf\" target=\"_blank\">&copy; ÚGKK SR</a>"
+      "url": "https://api.maptiler.com/tiles/a67509a7-a7a1-460f-841f-5caa37f5608a/tiles.json?key=lmYA16sOOOz9r6DH7iA9"
     },
     "terrain": {
       "type": "raster-dem",
-      "url": "styles/terrain-tiles.json",
-      "encoding": "terrarium",
-      "attribution": "<a href=\"https://www.geoportal.sk/files/zbgis/objednavky/podmienky-poskytovania-pouzivania-produktov-lls.pdf\" target=\"_blank\">&copy; ÚGKK SR</a>"
+      "url": "https://api.maptiler.com/tiles/bfb881fd-cacb-4b87-a8c8-5dee6b7a6b96/tiles.json?key=lmYA16sOOOz9r6DH7iA9",
+      "encoding": "terrarium"
     }
   },
   "layers": [
     {
-      "id": "gray-shading-tiles",
+      "id": "gray-shading",
       "type": "raster",
-      "source": "gray-shading-tiles",
+      "source": "gray-shading",
       "minzoom": 0,
       "maxzoom": 18
     }

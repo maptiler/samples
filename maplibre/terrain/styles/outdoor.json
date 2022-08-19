@@ -4,29 +4,21 @@
   "name": "Outdoor",
   "sources": {
     "outdoor": {
-      "url": "https://api.maptiler.com/tiles/outdoor/tiles.json?key=lmYA16sOOOz9r6DH7iA9",
-      "type": "vector"
+      "type": "vector",
+      "url": "https://api.maptiler.com/tiles/outdoor/tiles.json?key=lmYA16sOOOz9r6DH7iA9"
     },
     "contours": {
-      "url": "styles/contour-tiles.json",
-      "type": "vector"
-    },
-    "terrain-rgb": {
-      "url": "styles/terrain-tiles.json",
-      "tileSize": 512,
-      "type": "raster-dem",
-      "encoding": "terrarium",
-      "attribution": "<a href=\"https://www.geoportal.sk/files/zbgis/objednavky/podmienky-poskytovania-pouzivania-produktov-lls.pdf\" target=\"_blank\">&copy; ÚGKK SR</a>"
+      "type": "vector",
+      "url": "https://api.maptiler.com/tiles/e9a65d79-2526-4c00-ae30-1587af23675e/tiles.json?key=lmYA16sOOOz9r6DH7iA9"
     },
     "terrain": {
       "type": "raster-dem",
-      "url": "styles/terrain-tiles.json",
-      "encoding": "terrarium",
-      "attribution": "<a href=\"https://www.geoportal.sk/files/zbgis/objednavky/podmienky-poskytovania-pouzivania-produktov-lls.pdf\" target=\"_blank\">&copy; ÚGKK SR</a>"
+      "url": "https://api.maptiler.com/tiles/bfb881fd-cacb-4b87-a8c8-5dee6b7a6b96/tiles.json?key=lmYA16sOOOz9r6DH7iA9",
+      "encoding": "terrarium"
     },
     "maptiler_planet": {
-      "url": "https://api.maptiler.com/tiles/v3/tiles.json?key=lmYA16sOOOz9r6DH7iA9",
-      "type": "vector"
+      "type": "vector",
+      "url": "https://api.maptiler.com/tiles/v3/tiles.json?key=lmYA16sOOOz9r6DH7iA9"
     }
   },
   "layers": [
@@ -272,7 +264,7 @@
     {
       "id": "hillshade",
       "type": "hillshade",
-      "source": "terrain-rgb",
+      "source": "terrain",
       "minzoom": 3,
       "layout": { "visibility": "visible" },
       "paint": {

@@ -7,14 +7,13 @@
         "https://ofmozaika.tiles.freemap.sk/{z}/{x}/{y}.jpg"
       ],
       "is-of-lower-quality": "https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=lmYA16sOOOz9r6DH7iA9",
-      "tileSize": 128,
-      "attribution": "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">&copy; MapTiler</a>"
+      "tileSize": 256,
+      "attribution": "<a href=\"https://www.geoportal.sk/sk/zbgis/ortofotomozaika/\" target=\"_blank\">&copy; GKÚ SR, NLC</a>"
     },
     "terrain": {
       "type": "raster-dem",
-      "url": "styles/terrain-tiles.json",
-      "encoding": "terrarium",
-      "attribution": "<a href=\"https://www.geoportal.sk/files/zbgis/objednavky/podmienky-poskytovania-pouzivania-produktov-lls.pdf\" target=\"_blank\">&copy; ÚGKK SR</a>"
+      "url": "https://api.maptiler.com/tiles/bfb881fd-cacb-4b87-a8c8-5dee6b7a6b96/tiles.json?key=lmYA16sOOOz9r6DH7iA9",
+      "encoding": "terrarium"
     }
   },
   "layers": [
