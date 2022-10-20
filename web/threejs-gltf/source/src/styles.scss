@@ -1,0 +1,12 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+body { margin: 0; }
+
+#views {
+  float: left;
+  position: absolute;
+}
+
+.btn-outline-primary {
+  background-color: #EFF3FB;
+}
