@@ -6,8 +6,8 @@
   <meta name="keywords" content="map, choropleth, maptiler">
   <meta name="description" content="Sample choropleth map with MapTiler Countries.">
   <title>MapTiler Countries with own data</title>
-  <script src="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.js"></script>
-  <link href="https://cdn.maptiler.com/maplibre-gl-js/v1.14.0/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://www.maptiler.com/js/sdk/dist/maptiler-sdk.umd.js"></script>
+  <link href="https://www.maptiler.com/js/sdk/dist/maptiler-sdk.css" rel="stylesheet" />
   <style>
     #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
   </style>
@@ -33,9 +33,9 @@
   <div id="map"></div>
   <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
   <script>
-    var key = 'ikPbJwwEEbaMHCvgAxpQ';
+    var key = '1FhMwoUHOr81XFr4HGl4';
 
-    var map = new maplibregl.Map({
+    var map = new maptilersdk.Map({
       container: 'map',
       style: 'https://api.maptiler.com/maps/hybrid/style.json?key=' + key,
       center: [15.34, 49.77],
