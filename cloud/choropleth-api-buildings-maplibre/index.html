@@ -2,10 +2,10 @@
 <html>
 <head>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-<script src="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.js"></script>
-<link href="https://cdn.maptiler.com/maplibre-gl-js/v2.1.1/maplibre-gl.css" rel="stylesheet" />
-<script src="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.js"></script>
-<link href="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.css" rel="stylesheet" />
+<script src="https://cdn.maptiler.com/maptiler-sdk-js/latest/maptiler-sdk.umd.min.js"></script>
+<link href="https://cdn.maptiler.com/maptiler-sdk-js/latest/maptiler-sdk.css" rel="stylesheet" />
+<script src="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.95/maptilersdk.umd.js"></script>
+<link href="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.95/style.css" rel="stylesheet">
 <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 <title>MapTiler Cloud API - example</title>
 <style>
@@ -66,10 +66,8 @@
 </div>
 <p><a href="https://www.maptiler.com/copyright/" target="_blank">(c) MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">(c) OpenStreetMap contributors</a></p>
 <script>
-// You can remove the following line if you don't need support for RTL (right-to-left) labels:
-maplibregl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
 
-const apiKey = 'ikPbJwwEEbaMHCvgAxpQ';
+maptilersdk.config.apiKey = 'ikPbJwwEEbaMHCvgAxpQ';
 
 const categories_field = "currentUse";
 const categories = [
@@ -130,39 +128,16 @@ const getUse = (use, categories) => {
   }, "Unknown");
 }
 
-const map = new maplibregl.Map({
+const map = new maptilersdk.Map({
   container: 'map',
-  style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${apiKey}`,
+  style: maptilersdk.MapStyle.BASIC,
   center: [-3.15, 40.33],
   zoom: 5,
   hash: true
 });
-//add navigation control
-map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
-class searchControl {
-  onAdd(map) {
-    this._map = map;
-    this._container = document.createElement('div');
-    this._container.className = 'maplibregl-ctrl';
-    const _input = document.createElement('input');
-    this._container.appendChild(_input);
-    const geocoder = new maptiler.Geocoder({
-      input: _input,
-      key: apiKey
-    });
-    geocoder.on('select', function(item) {
-      map.fitBounds(item.bbox);
-    });
-    return this._container;
-  }
-
-  onRemove() {
-    this._container.parentNode.removeChild(this._container);
-    this._map = undefined;
-  }
-}
-map.addControl(new searchControl(), 'top-left');
+const gc = new maptilersdkMaptilerGeocoder.GeocodingControl({});
+map.addControl(gc, 'top-left');
 
 class legendControl {
   constructor (categories, field) {
@@ -223,7 +198,7 @@ map.on('load', () => {
   // the rest of the code will go in here
   map.addSource("building_source", {
   "type": "vector",
-  "url": `https://api.maptiler.com/tiles/6cb8d85c-e841-434f-b1c7-d42ee6428859/tiles.json?key=${apiKey}`
+  "url": `https://api.maptiler.com/tiles/6cb8d85c-e841-434f-b1c7-d42ee6428859/tiles.json`
   });
 
   map.addLayer({
@@ -247,18 +222,23 @@ map.on('load', () => {
 
 const createPopupContent = (feature) => {
   const bounds = turf.bbox(feature);
+  const imageURL = maptilersdk.staticMaps.bounded(bounds, {
+    width: 220,
+    height: 165,
+    style: 'hybrid',
+  });
   return `<div><strong>Reference: <a href="${feature.properties.informationSystem}" target="_blank" rel="noopener noreferrer">${feature.properties.reference}</a></strong></div>
   <div>${feature.properties.value}${feature.properties.value_uom}</div>
   <div><strong>Use</strong>:${getUse(feature.properties[categories_field], categories)}</div>
   <div><strong>Date</strong>:${new Date(feature.properties.end).getFullYear()}</div>
   <div><img src="${feature.properties.documentLink}" style="width:220px;height:165px"></div>
-  <div><img src="https://api.maptiler.com/maps/hybrid/static/${bounds.join()}/220x165.png?key=${apiKey}" style="width: 100%"></div>
+  <div><img src="${imageURL}" style="width: 100%"></div>
   `;
 }
 
 map.on('click', 'building_pol', function (e) {
   const content = createPopupContent(e.features[0]);
-  new maplibregl.Popup()
+  new maptilersdk.Popup()
   .setLngLat(e.lngLat)
   .setHTML(content)
   .addTo(map);
