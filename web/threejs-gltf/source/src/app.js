@@ -230,3 +230,30 @@ const transition = () => {
 }
 
 setInterval(changeScene, SCENE_TIME);
+
+/*
+* TODO: Try this to see if the animation acceleration error is corrected. 
+
+let count = 0;
+document.getElementById('count').innerHTML = count;
+
+let countInterval;
+
+function startInterval() {
+	countInterval = setInterval(() => {
+	count++;
+  document.getElementById('count').innerHTML = count;
+}, 1000);
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+     clearInterval(countInterval);
+  } else {
+    startInterval();
+  }
+});
+
+startInterval();
+
+*/
