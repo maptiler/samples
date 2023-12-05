@@ -23,6 +23,7 @@ Code examples of how to use the [MapTiler Maps API](https://www.maptiler.com/clo
 
 - [Geocoder component - MapLibre](https://labs.maptiler.com/samples/web/geocoder-component/)
 - [MapTiler terrain GLTF - Three.js](https://labs.maptiler.com/samples/web/threejs-gltf/)
+- [South America trip - MapTiler SDK helpers](https://labs.maptiler.com/samples/web/trip-sa/)
 
 ## Maplibre
 
