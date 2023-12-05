@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display a map</title>
+  <script src="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.umd.min.js"></script>
+  <link href="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+      const urlParams = new URLSearchParams(window.location.search); 
+      const key = urlParams.get('key') || 'ikPbJwwEEbaMHCvgAxpQ';
+      maptilersdk.config.apiKey = key; 
+      const map = new maptilersdk.Map({
+        container: 'map', // container's id or the HTML element to render the map
+        style: maptilersdk.MapStyle.STREETS,
+        center: [-68.98, -26.79], // starting position [lng, lat]
+        zoom: 2.79, // starting zoom
+      });
+
+      map.on('load', async function () {
+      
+        await maptilersdk.helpers.addPolyline(map, {
+        data: './trip.geojson',
+        outline: true,
+        lineDashArray: "___  _  ",
+        lineColor: "#F1175D"
+      });
+
+      await maptilersdk.helpers.addPoint(map, {
+        data: './pois.geojson',
+        pointColor: "#F1175D",
+        minPointRadius: 40,
+        maxPointRadius: 60
+      });
+
+      const markerEnd = new maptilersdk.Marker({
+        color: "#FF0000",
+      })
+      .setLngLat([-74.08698575005495,4.649932110963817])
+      .addTo(map);
+
+      const markerStart = new maptilersdk.Marker({
+        color: "#00FF00",
+      })
+      .setLngLat([-70.65021626336778,-33.43586114443242])
+      .addTo(map);
+
+    });
+
+
+  </script>
+</body>
+</html>
