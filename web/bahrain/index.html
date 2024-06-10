@@ -79,7 +79,7 @@
         this.button.setAttribute('title', 'Toggle Language');
         this.iconSpan = document.createElement('span');
         this.iconSpan.className = 'maplibregl-ctrl-icon-l';
-        this.iconSpan.textContent = 'AR';
+        this.iconSpan.textContent = 'Ar';
         this.button.appendChild(this.iconSpan);
         this.container.appendChild(this.button);
         this.isArabic = false;
@@ -115,7 +115,7 @@
           }
           restoreZoomSettings(this.map, layer);
         });
-        this.iconSpan.textContent = this.isArabic ? 'AR' : 'EN';
+        this.iconSpan.textContent = this.isArabic ? 'Ar' : 'En';
         this.iconSpan.classList.toggle("maplibregl-ctrl-icon-l");
         this.isArabic = !this.isArabic;
       }
