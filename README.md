@@ -1,8 +1,3 @@
----
-canonical_url: https://labs.maptiler.com/samples/
-layout: page
----
-
 # MapTiler samples
 
 Code examples of how to use the [MapTiler Maps API](https://www.maptiler.com/cloud/) with live demos.
