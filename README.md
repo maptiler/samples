@@ -4,8 +4,6 @@
 
 Code examples of how to use the [MapTiler Maps API](https://www.maptiler.com/cloud/) with live demos.
 
-![](https://img.shields.io/badge/-white?style=for-the-badge&logo=javascript)
-
 ---
 
 📖 [Documentation](https://docs.maptiler.com/) &nbsp; 🌐 [Website](https://www.maptiler.com/) &nbsp; 🔑 [Get API Key](https://cloud.maptiler.com/account/keys/)
@@ -67,9 +65,7 @@ We love contributions from the community! Whether it's bug reports, feature requ
 
 - Fork the repository and create your branch from `main`
 - If you've added code, add tests that cover your changes
-- Ensure your code follows our style guidelines
-- Give your pull request a clear, descriptive summary
-- Open a Pull Request with a comprehensive description
+- Open a pull request with a clear summary and comprehensive description
 
 Please create a folder per article or usecase in the product's folder. The website has an autobuild to https://labs.maptiler.com/samples/
 
